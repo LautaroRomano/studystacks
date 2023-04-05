@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   const get = async (req,res) => {
     try {
-      const [result] = await pool.query(`SELECT * FROM Users`);
+      const [result] = await pool.query(`SELECT * FROM Communities`);
       return res.status(200).json(result);
     } catch (error) {
       console.log(error);
@@ -20,14 +20,13 @@ export default async function handler(req, res) {
   }
 
   const post = async (req,res) => {
-    const { username, email, password, registration_date, last_login_date } = req.body
+    const { community_name, community_description, creation_date, creator_user_id } = req.body
     try {
-      const [result] = await pool.query(`INSERT INTO Users SET ?`,{
-          username,
-          email,
-          password,
-          registration_date,
-          last_login_date
+      const [result] = await pool.query(`INSERT INTO Communities SET ?`,{
+        community_name,
+        community_description,
+        creation_date,
+        creator_user_id,
       });
       return res.status(200).json(result);
     } catch (error) {

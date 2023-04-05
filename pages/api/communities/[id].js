@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 const get = async (req, res) => {
     const id = req.query.id
     try {
-        const [result] = await pool.query(`SELECT * FROM Users WHERE user_id = ?`, [id]);
+        const [result] = await pool.query(`SELECT * FROM Communities WHERE community_id = ?`, [id]);
         return res.status(200).json(result);
     } catch (error) {
         console.log(error);
@@ -27,17 +27,16 @@ const get = async (req, res) => {
 
 const put = async (req, res) => {
     const id = req.query.id
-    const { username, email, password, registration_date, last_login_date } = req.body
+    const { community_name, community_description, creation_date, creator_user_id } = req.body
 
     try {
-        const [result] = await pool.query(`UPDATE Users SET
-    username=?,
-    email=?,
-    password=?,
-    registration_date=?,
-    last_login_date=?
-    WHERE user_id = ?`,
-            [username, email, password, registration_date, last_login_date, id])
+        const [result] = await pool.query(`UPDATE Communities SET
+    community_name=?,
+    community_description=?,
+    creation_date=?,
+    creator_user_id=?
+    WHERE community_id = ?`,
+            [community_name, community_description, creation_date, creator_user_id, id])
         return res.status(200).json(result)
     } catch (error) {
         console.log({ error })
@@ -48,7 +47,7 @@ const put = async (req, res) => {
 const deletef = async (req, res) => {
     const id = req.query.id
     try {
-        const [result] = await pool.query(`DELETE FROM Users WHERE user_id = ?`, [id]);
+        const [result] = await pool.query(`DELETE FROM Communities WHERE community_id = ?`, [id]);
         return res.status(200).json(result);
     } catch (error) {
         console.log(error);
