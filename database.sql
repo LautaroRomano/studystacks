@@ -6,9 +6,11 @@ CREATE TABLE Users (
   username VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  registration_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  registration_date timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   last_login_date DATETIME
 );
+
+alter table USERS modify registration_date timestamp default current_timestamp on update current_timestamp;
 
 CREATE TABLE Communities (
   community_id INT PRIMARY KEY AUTO_INCREMENT,
