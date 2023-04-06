@@ -1,11 +1,11 @@
 import { Flex, Image, Text } from '@chakra-ui/react'
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-export default function Home() {
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+export default function Post() {
     return (
-        <Flex w={['100vw', '80vw', '700px', '700px', '700px']}
+        <Flex
+            w={['100vw', '80vw', '700px', '700px', '700px']}
             bg='#fff'
-            h='auto'
-            overflow='hidden'
             paddingBottom='14px'
             paddingX='14px'
             position='relative'
@@ -43,7 +43,7 @@ export default function Home() {
                 </Flex>
                 <Text fontSize={'25px'} position={'absolute'} right={'25px'} top='25px'>...</Text>
             </Flex>
-            <main>
+            <Flex flexDir={'column'}>
                 <Text
                     fontSize='14px'
                     color='primaryGray.300'
@@ -61,7 +61,103 @@ export default function Home() {
                 >
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, est iusto esse corrupti molestias facilis? Reprehenderit enim culpa laborum! Accusamus corrupti in omnis alias obcaecati labore dolores adipisci iusto voluptatem?
                 </Text>
-            </main>
+                <Flex border={'1px solid #ababab'} position={'relative'} borderRadius={'0 15px 15px 15px'} mt={'10px'} flexDir={'column'}>
+                    <Flex my={'5px'}></Flex>
+                    <Text
+                        fontSize='15px'
+                        color='primaryGray.500'
+                        marginTop='16px'
+                        lineHeight='1.7'
+                        position={'absolute'}
+                        top='-7'
+                        left={'7'}
+                        bg={'#fff'}
+                        px='3px'
+                    >
+                        Archivos adjuntos
+                    </Text>
+                    <Flex
+                        w={'100%'}
+                        color='primaryGray.500'
+                        p={'10px'}
+                        alignItems={'center'}
+                    >
+                        <Text color='warning.500'>
+                            <PictureAsPdfIcon />
+                        </Text>
+                        <Text
+                            fontSize='14px'
+                            color='primaryGray.500'
+                            marginTop='5px'
+                            lineHeight='1.7'
+                            ms={'10px'}
+                            mt={'-5px'}
+                        >
+                            Enanos albinos link.pdf
+                        </Text>
+                    </Flex>
+                    <Flex
+                        w={'100%'}
+                        color='primaryGray.500'
+                        p={'10px'}
+                        alignItems={'center'}
+                    >
+                        <Text color='warning.500'>
+                            <PictureAsPdfIcon />
+                        </Text>
+                        <Text
+                            fontSize='14px'
+                            color='primaryGray.500'
+                            marginTop='5px'
+                            lineHeight='1.7'
+                            ms={'10px'}
+                            mt={'-5px'}
+                        >
+                            Parcial 1 Fisica 2.pdf
+                        </Text>
+                    </Flex>
+                    <Flex
+                        w={'100%'}
+                        color='primaryGray.500'
+                        p={'10px'}
+                        alignItems={'center'}
+                    >
+                        <Text color='warning.500'>
+                            <PictureAsPdfIcon />
+                        </Text>
+                        <Text
+                            fontSize='14px'
+                            color='primaryGray.500'
+                            marginTop='5px'
+                            lineHeight='1.7'
+                            ms={'10px'}
+                            mt={'-5px'}
+                        >
+                            Parcial 2 Fisica 2.pdf
+                        </Text>
+                    </Flex>
+                    <Flex
+                        w={'100%'}
+                        color='primaryGray.500'
+                        p={'10px'}
+                        alignItems={'center'}
+                    >
+                        <Text color='warning.500'>
+                            <PictureAsPdfIcon />
+                        </Text>
+                        <Text
+                            fontSize='14px'
+                            color='primaryGray.500'
+                            marginTop='5px'
+                            lineHeight='1.7'
+                            ms={'10px'}
+                            mt={'-5px'}
+                        >
+                            Parcial 3 Fisica 2.pdf
+                        </Text>
+                    </Flex>
+                </Flex>
+            </Flex>
             <Flex
                 mt='20px'
                 alignItems='center'
@@ -71,7 +167,7 @@ export default function Home() {
                     alignItems='center'
                 >
                     <Text color={'primaryGray.500'} fontSize={'14px'}>
-                    <InsertEmoticonIcon></InsertEmoticonIcon>
+                        <InsertEmoticonIcon></InsertEmoticonIcon>
                     </Text>
                     <Flex padding={'5px'} bg={'primaryGray.700'} borderRadius={'10px'} ms='5px' color={'primaryGray.500'} fontSize={'14px'}>
                         ❤️
