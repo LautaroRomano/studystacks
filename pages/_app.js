@@ -1,5 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
+import { SessionProvider } from "next-auth/react";
 import "../styles/globals.css";
 
 // 2. Call `extendTheme` and pass your custom values
@@ -21,12 +22,12 @@ const theme = extendTheme({
       300: "#282225",
     },
     primaryWhite: {
-      500: '#E7E7E8'
+      500: "#E7E7E8",
     },
     primaryBlue: {
-      600: '#9CC5F1',
-      500: '#539CFA',
-      400: '#0794FF',
+      600: "#9CC5F1",
+      500: "#539CFA",
+      400: "#0794FF",
     },
     black: {
       500: "#1D1F23",
@@ -40,10 +41,12 @@ const theme = extendTheme({
   },
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </ChakraProvider>
   );
 }
