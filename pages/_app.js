@@ -13,11 +13,20 @@ const theme = extendTheme({
       400: "#2851A3",
       300: "#1D3C78",
     },
-    gray: {
+    primaryGray: {
       900: "#ECF3FF",
       700: "#F2F3F5",
-      600: "#CCCCCC",
-      500: "#444950",
+      600: "#A1A1A1",
+      500: "#656465",
+      300: "#282225",
+    },
+    primaryWhite: {
+      500: '#E7E7E8'
+    },
+    primaryBlue: {
+      600: '#9CC5F1',
+      500: '#539CFA',
+      400: '#0794FF',
     },
     black: {
       500: "#1D1F23",
