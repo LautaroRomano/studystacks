@@ -24,7 +24,7 @@ export default function Home() {
                     src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
                     alt=""
                 />
-                <Flex>
+                <Flex alignItems={'center'}>
                     <Text
                         letterSpacing='.4px'
                         fontSize='14px'
@@ -38,7 +38,7 @@ export default function Home() {
                         color='primaryGray.600'
                         ms={'15px'}
                     >
-                        hace 4 min 
+                        hace 4 min
                     </Text>
                 </Flex>
                 <Text fontSize={'25px'} position={'absolute'} right={'25px'} top='25px'>...</Text>
@@ -46,8 +46,17 @@ export default function Home() {
             <main>
                 <Text
                     fontSize='14px'
-                    color='primaryGray.500'
+                    color='primaryGray.300'
+                    fontWeight={'500'}
                     marginTop='16px'
+                    lineHeight='1.7'
+                >
+                    Titulo de ejemplo...
+                </Text>
+                <Text
+                    fontSize='14px'
+                    color='primaryGray.500'
+                    marginTop='5px'
                     lineHeight='1.7'
                 >
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur, est iusto esse corrupti molestias facilis? Reprehenderit enim culpa laborum! Accusamus corrupti in omnis alias obcaecati labore dolores adipisci iusto voluptatem?
@@ -61,12 +70,14 @@ export default function Home() {
                     marginRight='21px'
                     alignItems='center'
                 >
+                    <Text color={'primaryGray.500'} fontSize={'14px'}>
                     <InsertEmoticonIcon></InsertEmoticonIcon>
-                    <Flex padding={'5px'} bg={'primaryGray.700'} borderRadius={'10px'} ms='5px'>
+                    </Text>
+                    <Flex padding={'5px'} bg={'primaryGray.700'} borderRadius={'10px'} ms='5px' color={'primaryGray.500'} fontSize={'14px'}>
                         ❤️
                         34
                     </Flex>
-                    <Flex padding={'5px'} bg={'primaryGray.700'} borderRadius={'10px'} mx='2px'>
+                    <Flex padding={'5px'} bg={'primaryGray.700'} borderRadius={'10px'} mx='2px' color={'primaryGray.500'} fontSize={'14px'}>
                         👍
                         6
                     </Flex>
