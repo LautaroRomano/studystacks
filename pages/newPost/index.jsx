@@ -1,10 +1,12 @@
 import { Flex, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import CreatePostView from "../../components/CreatePostView";
 import { useSession } from "next-auth/react";
 
 export default function Home() {
   const { status, data } = useSession();
+  const [userLoggin, setUserLogin] = useState(false);
 
   return (
     <Flex
@@ -15,7 +17,11 @@ export default function Home() {
       alignItems={"center"}
       overflowY={"scroll"}
     >
-      <Navbar session={{ status, data }} />
+      <Navbar
+        session={{ status, data }}
+        userLoggin={userLoggin}
+        setUserLogin={setUserLogin}
+      />
       <CreatePostView session={{ status, data }} />
     </Flex>
   );

@@ -4,7 +4,8 @@ import axios from "axios";
 import { signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-export default function Navbar({ session }) {
+export default function Navbar({ session, userLoggin, setUserLogin }) {
+  const [viewUserSettings, setViewUserSettings] = useState(false);
   return (
     <Flex
       w={["100vw", "80vw", "700px", "700px", "700px"]}
@@ -22,17 +23,33 @@ export default function Navbar({ session }) {
       zIndex="10"
     >
       <Flex alignItems={"center"}>
-        <Text
-          letterSpacing=".4px"
-          fontSize="14px"
-          fontWeight="500"
-          color="primaryGray.500"
-        >
-          @exe_romano
-        </Text>
+        {session.status === "authenticated" && (
+          <Text
+            letterSpacing=".4px"
+            fontSize="14px"
+            fontWeight="500"
+            color="primaryGray.500"
+          >
+            @{userLoggin.username}
+          </Text>
+        )}
       </Flex>
-      <UserSettings session={session} />
-      <Flex height="40px" width="40px" position={"relative"}>
+
+      {viewUserSettings && (
+        <UserSettings
+          session={session}
+          userLoggin={userLoggin}
+          setUserLogin={setUserLogin}
+        />
+      )}
+      <Flex
+        height="40px"
+        width="40px"
+        position={"relative"}
+        onClick={() => setViewUserSettings((state) => !state)}
+        cursor={"pointer"}
+        _hover={{ opacity: ".8" }}
+      >
         <Image
           height="40px"
           width="40px"
@@ -46,8 +63,7 @@ export default function Navbar({ session }) {
   );
 }
 
-const UserSettings = ({ session }) => {
-  const [userLoggin, setUserLogin] = useState(false);
+const UserSettings = ({ session, userLoggin, setUserLogin }) => {
   const [registerData, setRegisterData] = useState({});
 
   useEffect(() => {
