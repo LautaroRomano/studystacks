@@ -6,13 +6,15 @@ import {
   Input,
   Button,
   Select,
-  Link 
+  Link,
 } from "@chakra-ui/react";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import FileUploader from "./fileuploader/FileUploader";
+
 export default function Post({ session, userLoggin }) {
   const [communitiesList, setCommunitiesList] = useState([]);
   const [sectionsList, setSectionsList] = useState([]);
@@ -289,17 +291,8 @@ export default function Post({ session, userLoggin }) {
                 <Text color="warning.500">
                   <FileUploadIcon />
                 </Text>
-                <Text
-                  fontSize="15px"
-                  color="primaryGray.200"
-                  marginTop="5px"
-                  lineHeight="1.7"
-                  fontWeight={"600"}
-                  ms={"10px"}
-                  mt={"-5px"}
-                >
-                  Subir PDF
-                </Text>
+
+                <FileUploader />
               </Flex>
             </Flex>
           </Flex>
