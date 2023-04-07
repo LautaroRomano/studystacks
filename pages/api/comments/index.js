@@ -20,11 +20,10 @@ const get = async (req, res) => {
 }
 
 const post = async (req, res) => {
-    const { comment_text, creation_date, creator_user_id, post_id } = req.body
+    const { comment_text, creator_user_id, post_id } = req.body
     try {
-        const [result] = await pool.query(`INSERT INTO Comments SET ?`, {
+        const [result] = await pool.query(`INSERT INTO Comments SET creation_date=now(), ?`, {
             comment_text,
-            creation_date,
             creator_user_id,
             post_id
         });
