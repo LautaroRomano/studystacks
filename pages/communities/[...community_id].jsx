@@ -11,7 +11,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 export default function Home() {
   const router = useRouter();
-  const [community_id, section_id] = router.query.community_id;
+  const [community_id, section_id] = router.query.community_id || [null, null];
   const { status, data } = useSession();
   const [userLoggin, setUserLogin] = useState(false);
   const [community, setCommunity] = useState({});

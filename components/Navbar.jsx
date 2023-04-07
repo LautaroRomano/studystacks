@@ -1,12 +1,23 @@
-import { Flex, Image, Text, Input, Button, Link } from "@chakra-ui/react";
+import {
+  Flex,
+  Image,
+  Text,
+  Input,
+  Button,
+  Link,
+  Spacer,
+} from "@chakra-ui/react";
 import GoogleIcon from "@mui/icons-material/Google";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import axios from "axios";
 import { signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import Search from "./Search";
 
 export default function Navbar({ session, userLoggin, setUserLogin }) {
   const [viewUserSettings, setViewUserSettings] = useState(false);
+  const [search, setSearch] = useState(false);
 
   useEffect(() => {
     if (session && session.status === "authenticated" && !userLoggin) {
@@ -32,6 +43,13 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
       justifyContent={"space-between"}
       zIndex="10"
     >
+      {search && (
+        <Search
+          session={session}
+          userLoggin={userLoggin}
+          closedModal={() => setSearch(false)}
+        />
+      )}
       <Flex alignItems={"center"}>
         <Flex
           height="40px"
@@ -52,16 +70,16 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
             />
           </Link>
         </Flex>
-        {session && session.status === "authenticated" && (
-          <Text
-            letterSpacing=".4px"
-            fontSize="14px"
-            fontWeight="500"
-            color="primaryGray.500"
-          >
-            @{userLoggin.username}
-          </Text>
-        )}
+        <Flex position={"relative"}>
+          <Input
+            placeholder="Buscar..."
+            value=""
+            onClick={() => setSearch(true)}
+          ></Input>
+          <Flex position={"absolute"} right={1} top={"2"}>
+            <SearchIcon />
+          </Flex>
+        </Flex>
       </Flex>
 
       {viewUserSettings && (
@@ -70,6 +88,18 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
           userLoggin={userLoggin}
           setUserLogin={setUserLogin}
         />
+      )}
+      <Spacer></Spacer>
+      {session && session.status === "authenticated" && (
+        <Text
+          letterSpacing=".4px"
+          fontSize="14px"
+          fontWeight="500"
+          color="primaryGray.500"
+          me={"5px"}
+        >
+          @{userLoggin.username}
+        </Text>
       )}
       <Flex
         height="40px"
