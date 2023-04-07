@@ -1,7 +1,46 @@
 import { Flex, Image, Text, Link } from "@chakra-ui/react";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-export default function Post({ data }) {
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+const likesTypesArr = [
+  { type: 1, data: "❤️" },
+  { type: 2, data: "👍" },
+];
+
+export default function Post({ data, userLoggin }) {
+  const [likesTypes, setLikesTypes] = useState(false);
+  const [votes, setVotes] = useState([]);
+
+  const sendLike = (type) => {
+    if (!userLoggin) return;
+    axios
+      .post(`/api/votes`, {
+        vote_value: type,
+        creator_user_id: userLoggin.user_id,
+        post_id: data.post_id,
+        comment_id: null,
+      })
+      .then(() => getLikes());
+    setLikesTypes(false);
+  };
+  const deleteLike = (vote_id) => {
+    if (!userLoggin) return;
+    axios.delete(`/api/votes/${vote_id}`).then(() => getLikes());
+    setLikesTypes(false);
+  };
+
+  useEffect(() => {
+    getLikes();
+  }, []);
+
+  const getLikes = () => {
+    axios.get(`/api/votes/post/${data.post_id}`).then(({ data }) => {
+      setVotes(data);
+    });
+  };
+
   return (
     <Flex
       w={["100vw", "80vw", "700px", "700px", "700px"]}
@@ -170,39 +209,100 @@ export default function Post({ data }) {
         </Flex>
       </Flex>
       <Flex mt="20px" alignItems="center">
-        <Flex marginRight="21px" alignItems="center">
-          <Text color={"primaryGray.500"} fontSize={"14px"}>
-            <InsertEmoticonIcon></InsertEmoticonIcon>
-          </Text>
-          <Flex
-            padding={"5px"}
-            bg={"primaryGray.700"}
-            borderRadius={"10px"}
-            ms="5px"
-            color={"primaryGray.500"}
-            fontSize={"14px"}
-          >
-            ❤️ 34
-          </Flex>
-          <Flex
-            padding={"5px"}
-            bg={"primaryGray.700"}
-            borderRadius={"10px"}
-            mx="2px"
-            color={"primaryGray.500"}
-            fontSize={"14px"}
-          >
-            👍 6
-          </Flex>
+        <Flex marginRight="21px" alignItems="center" position={"relative"}>
+          {likesTypes && (
+            <Flex
+              position={"absolute"}
+              top={"-10"}
+              bg={"primaryGray.700"}
+              borderRadius={"5px"}
+            >
+              {likesTypesArr.map((like) => (
+                <Flex
+                  key={like.type}
+                  padding={"5px"}
+                  bg={"#FFF"}
+                  borderRadius={"10px"}
+                  ms="5px"
+                  color={"primaryGray.500"}
+                  fontSize={"14px"}
+                  cursor={"pointer"}
+                  _hover={{
+                    bg: "blue.100",
+                  }}
+                  onClick={() => sendLike(like.type)}
+                >
+                  {like.data}
+                </Flex>
+              ))}
+            </Flex>
+          )}
+          {userLoggin &&
+          votes.find((vote) => vote.creator_user_id === userLoggin.user_id) ? (
+            <Text
+              bg={"blue.100"}
+              fontSize={"14px"}
+              onClick={() =>
+                deleteLike(
+                  votes.find(
+                    (vote) => vote.creator_user_id === userLoggin.user_id
+                  ).vote_id
+                )
+              }
+              cursor={"pointer"}
+              borderRadius={"10px"}
+              p={"5px"}
+            >
+              {
+                likesTypesArr.find(
+                  (f) =>
+                    f.type ==
+                    votes.find(
+                      (vote) => vote.creator_user_id === userLoggin.user_id
+                    ).vote_value
+                ).data
+              }
+            </Text>
+          ) : (
+            <Text
+              color={likesTypes ? "blue.500" : "primaryGray.500"}
+              fontSize={"14px"}
+              onClick={() => setLikesTypes((state) => !state)}
+              cursor={"pointer"}
+            >
+              <InsertEmoticonIcon></InsertEmoticonIcon>
+            </Text>
+          )}
+          {votes.filter((f) => f.vote_value === 1).length > 0 && (
+            <Flex
+              padding={"5px"}
+              bg={"primaryGray.700"}
+              borderRadius={"10px"}
+              ms="5px"
+              color={"primaryGray.500"}
+              fontSize={"14px"}
+            >
+              ❤️ {votes.filter((f) => f.vote_value === 1).length}
+            </Flex>
+          )}
+          {votes.filter((f) => f.vote_value === 2).length > 0 && (
+            <Flex
+              padding={"5px"}
+              bg={"primaryGray.700"}
+              borderRadius={"10px"}
+              mx="2px"
+              color={"primaryGray.500"}
+              fontSize={"14px"}
+            >
+              👍 {votes.filter((f) => f.vote_value === 2).length}
+            </Flex>
+          )}
         </Flex>
         <Text color="primaryGray.600" fontSize="12px" marginLeft="10px">
-          40 Likes
+          {votes.length} likes
         </Text>
         <Text color="primaryGray.600" fontSize="12px" marginLeft="auto">
           10 comentarios
-        </Text>
-        <Text color="primaryGray.600" fontSize="12px" marginLeft="10px">
-          5 compartidos
         </Text>
       </Flex>
     </Flex>

@@ -35,7 +35,7 @@ export default function Home({ posts }) {
       />
       <CreatePost />
       {postsList.map((post) => (
-        <Post data={post} key={post.post_id} />
+        <Post data={post} key={post.post_id} userLoggin={userLoggin} />
       ))}
     </Flex>
   );

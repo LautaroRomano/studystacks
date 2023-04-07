@@ -20,11 +20,10 @@ export default async function handler(req, res) {
   }
 
   const post = async (req,res) => {
-    const { vote_value, creation_date, creator_user_id, post_id, comment_id } = req.body
+    const { vote_value, creator_user_id, post_id, comment_id } = req.body
     try {
-      const [result] = await pool.query(`INSERT INTO Votes SET ?`,{
+      const [result] = await pool.query(`INSERT INTO Votes SET creation_date=now(), ?`,{
         vote_value, 
-        creation_date, 
         creator_user_id, 
         post_id, 
         comment_id
