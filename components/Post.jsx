@@ -12,6 +12,8 @@ const likesTypesArr = [
 export default function Post({ data, userLoggin }) {
   const [likesTypes, setLikesTypes] = useState(false);
   const [votes, setVotes] = useState([]);
+  const [countComments, setCountComments] = useState(0);
+  const [commentsRoute] = useState(`comments/${data.post_id}`);
 
   const sendLike = (type) => {
     if (!userLoggin) return;
@@ -33,6 +35,9 @@ export default function Post({ data, userLoggin }) {
 
   useEffect(() => {
     getLikes();
+    axios.get(`/api/comments/post/count/${data.post_id}`).then(({ data }) => {
+      setCountComments(data[0].total_comments);
+    });
   }, []);
 
   const getLikes = () => {
@@ -301,8 +306,8 @@ export default function Post({ data, userLoggin }) {
         <Text color="primaryGray.600" fontSize="12px" marginLeft="10px">
           {votes.length} likes
         </Text>
-        <Text color="primaryGray.600" fontSize="12px" marginLeft="auto">
-          10 comentarios
+        <Text color="primaryGray.600" fontSize="12px" marginLeft="auto" me='10px'>
+          <Link href={commentsRoute}>{countComments} comentarios</Link>
         </Text>
       </Flex>
     </Flex>
