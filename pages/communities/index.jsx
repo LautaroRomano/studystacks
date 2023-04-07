@@ -1,8 +1,8 @@
-import { Flex, Text, Button, Input } from "@chakra-ui/react";
+import { Flex, Text, Button, Input, Link } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { useSession } from "next-auth/react";
-import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 
 export default function Home() {
@@ -87,7 +87,37 @@ export default function Home() {
           </Flex>
         ) : (
           <>
-            <Flex mt={"85px"} mb={"15px"} flexDir={"column"}>
+            <Link href="/communities/create">
+              <Flex
+                mt={"85px"}
+                mb={"15px"}
+                w={"100%"}
+                _hover={{ bg: "primaryGray.700" }}
+                alignItems={"center"}
+                justifyContent={"center"}
+                py={"5px"}
+                cursor={"pointer"}
+              >
+                <Text
+                  letterSpacing=".4px"
+                  fontSize="18px"
+                  fontWeight="500"
+                  color="primaryGray.500"
+                >
+                  Crear una comunidad
+                </Text>
+                <Flex
+                  color={"#fff"}
+                  bg={"blue.300"}
+                  borderRadius={"50%"}
+                  p="2px"
+                  ms={"10px"}
+                >
+                  <AddIcon />
+                </Flex>
+              </Flex>
+            </Link>
+            <Flex mb={"15px"} flexDir={"column"}>
               <Text
                 letterSpacing=".4px"
                 fontSize="18px"
@@ -97,87 +127,42 @@ export default function Home() {
                 Mis comunidades
               </Text>
             </Flex>
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>Nombre</Th>
-                  <Th>Descripcion</Th>
-                  <Th>Acciones</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {communitiesList.map((community) => {
-                  return (
-                    <Tr key={community.community_id} color={"primaryGray.500"}>
-                      <Td>{community.community_name}</Td>
-                      <Td>{community.community_description}</Td>
-                      <Td>
-                        <Button
-                          colorScheme="red"
-                          size="sm"
-                          onClick={() => exitCommunity(community.community_id)}
-                        >
-                          Salir
-                        </Button>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-            <Flex flexDir={"column"}></Flex>
-            {/* Entrar a una comunidad*/}
-            <Flex mt={"85px"} mb={"15px"}>
+
+            <Flex mb={"15px"} alignItems={"center"}>
               <Text
                 letterSpacing=".4px"
                 fontSize="18px"
                 fontWeight="500"
                 color="primaryGray.500"
               >
-                Entrar a una comunidad
+                Buscar
               </Text>
-              <Input placeholder="Buscar por nombre"></Input>
+              <Input
+                placeholder="Buscar por nombre"
+                ms={"15px"}
+                color={"primaryGray.500"}
+              ></Input>
             </Flex>
-            <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th>Nombre</Th>
-                  <Th>Descripcion</Th>
-                  <Th>Acciones</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {allCommunitiesList
-                  .filter(
-                    (f) =>
-                      !communitiesList.find(
-                        (com) => f.community_id === com.community_id
-                      )
-                  )
-                  .map((community) => {
-                    return (
-                      <Tr
-                        key={community.community_id}
-                        color={"primaryGray.500"}
-                      >
-                        <Td>{community.community_name}</Td>
-                        <Td>{community.community_description}</Td>
-                        <Td>
-                          <Button
-                            colorScheme="blue"
-                            size="sm"
-                            onClick={() =>
-                              entryCommunity(community.community_id)
-                            }
-                          >
-                            Entrar
-                          </Button>
-                        </Td>
-                      </Tr>
-                    );
-                  })}
-              </Tbody>
-            </Table>
+
+            {communitiesList.map((community) => {
+              const ref = `/communities/${community.community_id}`;
+              return (
+                <Link href={ref}>
+                  <Flex
+                    key={community.community_id}
+                    color={"primaryGray.500"}
+                    px={"60px"}
+                    py={"10px"}
+                    my={"10px"}
+                    _hover={{ bg: "primaryGray.700" }}
+                    cursor={"pointer"}
+                  >
+                    <Text>{community.community_name}</Text>
+                  </Flex>
+                </Link>
+              );
+            })}
+
             <Flex flexDir={"column"}></Flex>
           </>
         )}

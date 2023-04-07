@@ -14,6 +14,10 @@ export default function Post({ data, userLoggin }) {
   const [votes, setVotes] = useState([]);
   const [countComments, setCountComments] = useState(0);
   const [commentsRoute] = useState(`/comments/${data.post_id}`);
+  const [communityRef] = useState(`/communities/${data.community_id}`);
+  const [sectionRef] = useState(
+    `/communities/${data.community_id}/${data.section_id}`
+  );
 
   const sendLike = (type) => {
     if (!userLoggin) return;
@@ -82,7 +86,8 @@ export default function Post({ data, userLoggin }) {
             p={"5px"}
             borderRadius={"5px"}
           >
-            /<Link>{data.community_name}</Link>/<Link>{data.section_name}</Link>
+            /<Link href={communityRef}>{data.community_name}</Link>/
+            <Link href={sectionRef}>{data.section_name}</Link>
           </Text>
           <Text
             fontSize="12px"

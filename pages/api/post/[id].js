@@ -19,8 +19,8 @@ const get = async (req, res) => {
   const id = req.query.id;
   try {
     const [result] = await pool.query(
-      `
-        select posts.*,us.username,us.image,com.community_name,sec.section_name from posts 
+      `select posts.*,us.username,us.image,com.community_name,com.community_id,sec.section_name,sec.section_id 
+      from posts 
       join section as sec on sec.section_id = posts.section_id
       join communities as com on com.community_id = sec.community_id
       join communities_users as cu on cu.community_id = com.community_id
