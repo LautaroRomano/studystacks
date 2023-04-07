@@ -61,7 +61,7 @@ CREATE TABLE `communities` (
   PRIMARY KEY (`community_id`),
   KEY `creator_user_id` (`creator_user_id`),
   CONSTRAINT `communities_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +70,7 @@ CREATE TABLE `communities` (
 
 LOCK TABLES `communities` WRITE;
 /*!40000 ALTER TABLE `communities` DISABLE KEYS */;
+INSERT INTO `communities` VALUES (1,'UTN - Fisica II','Aqui podras ver los materiales necesarios para Fisica II en la UTN FRT','2023-04-06 00:00:00',1);
 /*!40000 ALTER TABLE `communities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +87,7 @@ CREATE TABLE `communities_users` (
   `user_id` int DEFAULT NULL,
   `entry_date` datetime NOT NULL,
   PRIMARY KEY (`communities_users_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,6 +96,7 @@ CREATE TABLE `communities_users` (
 
 LOCK TABLES `communities_users` WRITE;
 /*!40000 ALTER TABLE `communities_users` DISABLE KEYS */;
+INSERT INTO `communities_users` VALUES (1,1,1,'2023-04-06 00:00:00'),(2,1,2,'2023-04-07 00:37:27');
 /*!40000 ALTER TABLE `communities_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +122,7 @@ CREATE TABLE `posts` (
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`),
   CONSTRAINT `posts_ibfk_3` FOREIGN KEY (`section_id`) REFERENCES `section` (`section_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,6 +131,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` VALUES (1,'Primer paracial de fisica 2 anio 2022','Este es el primer parcial que se tomo de fisica 2, se lo tomo en la fecha 06/04/2022 por el profesor araujo.','2023-04-07 00:00:00',1,1,1),(2,'Primer paracial de fisica 2 anio 2022','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','2023-04-07 01:44:40',1,1,1),(3,'Primer paracial de fisica 2 anio 2022','fdssssssssssssssssssssss','2023-04-06 22:47:58',1,1,1);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +154,7 @@ CREATE TABLE `section` (
   KEY `community_id` (`community_id`),
   CONSTRAINT `section_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `section_ibfk_2` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,6 +163,7 @@ CREATE TABLE `section` (
 
 LOCK TABLES `section` WRITE;
 /*!40000 ALTER TABLE `section` DISABLE KEYS */;
+INSERT INTO `section` VALUES (1,'Inicio','Pagina de inicio de la comunidad UTN - Fisica II','2023-04-06 00:00:00',1,1);
 /*!40000 ALTER TABLE `section` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,8 +181,9 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `registration_date` datetime NOT NULL,
   `last_login_date` datetime DEFAULT NULL,
+  `image` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,6 +192,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'exe_romano','lautarooyt837@gmail.com','exe_romano','2023-04-06 00:00:00',NULL,'https://lh3.googleusercontent.com/a/AGNmyxYjp71Ut0GOer_dThhgqEjzyBpkdH-TT2W7lzU44A=s96-c'),(2,'Usuario45','sistemanumerador@gmail.com','Usuario45','2023-04-07 00:19:40',NULL,'https://lh3.googleusercontent.com/a/AGNmyxaexACpt08OysrsXTNLA5Ga7v92_8u4itq9fDon=s96-c');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -232,4 +238,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-06 16:20:07
+-- Dump completed on 2023-04-07  0:38:38

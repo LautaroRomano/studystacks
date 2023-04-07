@@ -1,4 +1,4 @@
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Button, Input } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import { useSession } from "next-auth/react";
@@ -9,16 +9,48 @@ export default function Home() {
   const { status, data } = useSession();
   const [userLoggin, setUserLogin] = useState(false);
   const [communitiesList, setCommunitiesList] = useState([]);
+  const [allCommunitiesList, setAllCommunitiesList] = useState([]);
 
   useEffect(() => {
-    if (userLoggin)
-      axios
-        .get(`/api/communities/user/${userLoggin.user_id}`)
-        .then(({ data }) => {
-          setCommunitiesList(data);
-        });
-    else setCommunitiesList([]);
+    if (userLoggin) {
+      getCommunities();
+    } else {
+      setCommunitiesList([]);
+      setAllCommunitiesList([]);
+    }
   }, [userLoggin]);
+
+  const getCommunities = () => {
+    axios
+      .get(`/api/communities/user/${userLoggin.user_id}`)
+      .then(({ data }) => {
+        setCommunitiesList(data);
+      });
+    axios.get(`/api/communities`).then(({ data }) => {
+      setAllCommunitiesList(data);
+    });
+  };
+
+  const entryCommunity = (communityId) => {
+    axios
+      .post(`/api/communities/entry`, {
+        community_id: communityId,
+        user_id: userLoggin.user_id,
+      })
+      .then(({ data }) => {
+        getCommunities();
+      });
+  };
+  const exitCommunity = (communityId) => {
+    axios
+      .patch(`/api/communities/entry`, {
+        community_id: communityId,
+        user_id: userLoggin.user_id,
+      })
+      .then(({ data }) => {
+        getCommunities();
+      });
+  };
 
   return (
     <Flex
@@ -80,13 +112,70 @@ export default function Home() {
                       <Td>{community.community_name}</Td>
                       <Td>{community.community_description}</Td>
                       <Td>
-                        <Button colorScheme="blue" size="sm">
-                          editar
+                        <Button
+                          colorScheme="red"
+                          size="sm"
+                          onClick={() => exitCommunity(community.community_id)}
+                        >
+                          Salir
                         </Button>
                       </Td>
                     </Tr>
                   );
                 })}
+              </Tbody>
+            </Table>
+            <Flex flexDir={"column"}></Flex>
+            {/* Entrar a una comunidad*/}
+            <Flex mt={"85px"} mb={"15px"}>
+              <Text
+                letterSpacing=".4px"
+                fontSize="18px"
+                fontWeight="500"
+                color="primaryGray.500"
+              >
+                Entrar a una comunidad
+              </Text>
+              <Input placeholder="Buscar por nombre"></Input>
+            </Flex>
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Nombre</Th>
+                  <Th>Descripcion</Th>
+                  <Th>Acciones</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {allCommunitiesList
+                  .filter(
+                    (f) =>
+                      !communitiesList.find(
+                        (com) => f.community_id === com.community_id
+                      )
+                  )
+                  .map((community) => {
+                    return (
+                      <Tr
+                        key={community.community_id}
+                        color={"primaryGray.500"}
+                      >
+                        <Td>{community.community_name}</Td>
+                        <Td>{community.community_description}</Td>
+                        <Td>
+                          <Button
+                            colorScheme="blue"
+                            size="sm"
+                            onClick={() =>
+                              entryCommunity(community.community_id)
+                            }
+                          >
+                            Entrar
+                          </Button>
+                        </Td>
+                      </Tr>
+                    );
+                  })}
               </Tbody>
             </Table>
             <Flex flexDir={"column"}></Flex>

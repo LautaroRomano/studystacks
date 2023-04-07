@@ -19,7 +19,7 @@ const get = async (req, res) => {
 };
 
 const post = async (req, res) => {
-  const { username, email, password, last_login_date } = req.body;
+  const { username, email, password, last_login_date,image } = req.body;
   try {
     const [result] = await pool.query(
       `INSERT INTO Users SET registration_date=now(), ?`,
@@ -28,6 +28,7 @@ const post = async (req, res) => {
         email,
         password,
         last_login_date,
+        image,
       }
     );
     const [user] = await pool.query(`SELECT * FROM Users where user_id = ?`, [

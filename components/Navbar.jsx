@@ -65,7 +65,7 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
           width="40px"
           borderRadius="50%"
           objectFit="cover"
-          src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+          src={userLoggin.image}
           alt=""
         />
       </Flex>
@@ -83,6 +83,7 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
       email: session.data.user.email,
       password: registerData.username,
       last_login_date: null,
+      image: session.data.user.image
     };
 
     axios.post(`/api/users`, data).then(({ data }) => {
