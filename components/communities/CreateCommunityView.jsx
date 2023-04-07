@@ -25,7 +25,6 @@ export default function CreateCommunityView({ session, userLoggin }) {
     const data = {
       community_name: communityData.community_name,
       community_description: communityData.community_description,
-      creation_date: new Date(),
       creator_user_id: userLoggin.user_id,
     };
     axios.post("/api/communities", data).then(({ data }) => {

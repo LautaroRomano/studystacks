@@ -82,7 +82,6 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
       username: registerData.username,
       email: session.data.user.email,
       password: registerData.username,
-      registration_date: new Date(),
       last_login_date: null,
     };
 

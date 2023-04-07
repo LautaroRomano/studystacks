@@ -22,20 +22,21 @@ const post = async (req, res) => {
   const {
     post_title,
     post_body,
-    creation_date,
     creator_user_id,
     community_id,
     section_id,
   } = req.body;
   try {
-    const [result] = await pool.query(`INSERT INTO Posts SET ?`, {
-      post_title,
-      post_body,
-      creation_date: new Date(creation_date).toISOString().slice(0, 10),
-      creator_user_id,
-      community_id,
-      section_id,
-    });
+    const [result] = await pool.query(
+      `INSERT INTO Posts SET creation_date=now(), ?`,
+      {
+        post_title,
+        post_body,
+        creator_user_id,
+        community_id,
+        section_id,
+      }
+    );
     return res.status(200).json({ succes: true });
   } catch (error) {
     console.log(error);

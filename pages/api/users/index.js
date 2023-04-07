@@ -19,16 +19,17 @@ const get = async (req, res) => {
 };
 
 const post = async (req, res) => {
-  const { username, email, password, registration_date, last_login_date } =
-    req.body;
+  const { username, email, password, last_login_date } = req.body;
   try {
-    const [result] = await pool.query(`INSERT INTO Users SET ?`, {
-      username,
-      email,
-      password,
-      registration_date: new Date(registration_date).toISOString().slice(0, 10),
-      last_login_date,
-    });
+    const [result] = await pool.query(
+      `INSERT INTO Users SET registration_date=now(), ?`,
+      {
+        username,
+        email,
+        password,
+        last_login_date,
+      }
+    );
     const [user] = await pool.query(`SELECT * FROM Users where user_id = ?`, [
       result.insertId,
     ]);

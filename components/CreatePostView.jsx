@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   Select,
+  Link 
 } from "@chakra-ui/react";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
@@ -46,7 +47,6 @@ export default function Post({ session, userLoggin }) {
     const data = {
       post_title: postData.post_title,
       post_body: postData.post_body,
-      creation_date: new Date(),
       creator_user_id: userLoggin.user_id,
       community_id: postData.community_id,
       section_id: postData.section_id,
