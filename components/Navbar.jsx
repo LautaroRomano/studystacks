@@ -33,6 +33,25 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
       zIndex="10"
     >
       <Flex alignItems={"center"}>
+        <Flex
+          height="40px"
+          width="40px"
+          position={"relative"}
+          cursor={"pointer"}
+          _hover={{ opacity: ".8" }}
+          me={"25px"}
+        >
+          <Link href="/">
+            <Image
+              height="40px"
+              width="40px"
+              borderRadius="50%"
+              objectFit="cover"
+              src={"/images/logo.png"}
+              alt=""
+            />
+          </Link>
+        </Flex>
         {session && session.status === "authenticated" && (
           <Text
             letterSpacing=".4px"
@@ -83,7 +102,7 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
       email: session.data.user.email,
       password: registerData.username,
       last_login_date: null,
-      image: session.data.user.image
+      image: session.data.user.image,
     };
 
     axios.post(`/api/users`, data).then(({ data }) => {
