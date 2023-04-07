@@ -83,7 +83,7 @@ export default function Home() {
         ></Input>
         <Button
           position={"absolute"}
-          zIndex={50}
+          zIndex={1}
           colorScheme="blue"
           size="sm"
           right={5}
@@ -97,6 +97,7 @@ export default function Home() {
       {comments.map((com) => (
         <CommentCard data={com} userLoggin={userLoggin} />
       ))}
+      <Flex mb={'50px'}></Flex>
     </Flex>
   );
 }

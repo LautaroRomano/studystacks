@@ -56,83 +56,80 @@ export default function commentCard({ data, userLoggin }) {
             fontSize="14px"
             fontWeight="700"
             color="primaryGray.500"
+            textAlign={"start"}
           >
-            @{data.username}
+            @{data.username}{" "}
+            <Text
+              fontSize="12px"
+              color="primaryGray.600"
+              ms={"45px"}
+              display={"contents"}
+            >
+              {getDate(data.creation_date)}
+            </Text>
+            <Text
+              letterSpacing=".4px"
+              fontSize="13px"
+              fontWeight="500"
+              lineHeight="1.7"
+              ms={"5px"}
+            >
+              {data.comment_text}
+            </Text>
           </Text>
-          <Text
-            letterSpacing=".4px"
-            fontSize="14px"
-            color="primaryGray.500"
-            marginTop="5px"
-            lineHeight="1.7"
-            ms={"5px"}
+        </Flex>
+        <Flex marginLeft="auto" me={"25px"} flexDir={"column"} w={"50px"} alignItems={'center'} justifyContent={'center'}>
+          <Flex
+            marginRight="21px"
+            alignItems="center"
+            position={"relative"}
+            ms={"15px"}
+            w={"50px"}
           >
-            {data.comment_text}
-          </Text>
+            {userLoggin &&
+            votes.find(
+              (vote) => vote.creator_user_id === userLoggin.user_id
+            ) ? (
+              <Text
+                bg={"blue.100"}
+                fontSize={"14px"}
+                onClick={() =>
+                  deleteLike(
+                    votes.find(
+                      (vote) => vote.creator_user_id === userLoggin.user_id
+                    ).vote_id
+                  )
+                }
+                cursor={"pointer"}
+                borderRadius={"10px"}
+                p={"5px"}
+                ms="5px"
+                color={"primaryGray.500"}
+              >
+                ❤️ {votes.length}
+              </Text>
+            ) : (
+              <Flex
+                key={1}
+                padding={"5px"}
+                bg={"primaryGray.700"}
+                borderRadius={"10px"}
+                ms="5px"
+                color={"primaryGray.500"}
+                fontSize={"14px"}
+                cursor={"pointer"}
+                _hover={{
+                  bg: "blue.100",
+                }}
+                onClick={() => sendLike(1)}
+              >
+                ❤️{votes.length}
+              </Flex>
+            )}
+          </Flex>
         </Flex>
         <Text fontSize={"25px"} position={"absolute"} right={"25px"} top="25px">
           ...
-        </Text>
-      </Flex>
-
-      <Flex mt="0px" alignItems="start">
-        <Text fontSize="12px" color="primaryGray.600" ms={"45px"}>
-          {getDate(data.creation_date)}
-        </Text>
-        <Flex
-          marginRight="21px"
-          alignItems="center"
-          position={"relative"}
-          ms={"15px"}
-        >
-          {userLoggin &&
-          votes.find((vote) => vote.creator_user_id === userLoggin.user_id) ? (
-            <Text
-              bg={"blue.100"}
-              fontSize={"14px"}
-              onClick={() =>
-                deleteLike(
-                  votes.find(
-                    (vote) => vote.creator_user_id === userLoggin.user_id
-                  ).vote_id
-                )
-              }
-              cursor={"pointer"}
-              borderRadius={"10px"}
-              p={"5px"}
-              padding={"5px"}
-              ms="5px"
-              color={"primaryGray.500"}
-            >
-              ❤️ {votes.length}
-            </Text>
-          ) : (
-            <Flex
-              key={1}
-              padding={"5px"}
-              bg={"#FFF"}
-              borderRadius={"10px"}
-              ms="5px"
-              color={"primaryGray.500"}
-              fontSize={"14px"}
-              cursor={"pointer"}
-              _hover={{
-                bg: "blue.100",
-              }}
-              onClick={() => sendLike(1)}
-            >
-              ❤️{votes.length}
-            </Flex>
-          )}
-        </Flex>
-        <Text
-          color="primaryGray.600"
-          fontSize="12px"
-          marginLeft="auto"
-          me={"25px"}
-          cursor={"pointer"}
-        >
-          ver respuestas
         </Text>
       </Flex>
     </Flex>

@@ -13,7 +13,7 @@ export default function Post({ data, userLoggin }) {
   const [likesTypes, setLikesTypes] = useState(false);
   const [votes, setVotes] = useState([]);
   const [countComments, setCountComments] = useState(0);
-  const [commentsRoute] = useState(`comments/${data.post_id}`);
+  const [commentsRoute] = useState(`/comments/${data.post_id}`);
 
   const sendLike = (type) => {
     if (!userLoggin) return;
@@ -84,7 +84,12 @@ export default function Post({ data, userLoggin }) {
           >
             /<Link>{data.community_name}</Link>/<Link>{data.section_name}</Link>
           </Text>
-          <Text fontSize="12px" color="primaryGray.600" ms={"15px"}>
+          <Text
+            fontSize="12px"
+            color="primaryGray.600"
+            ms={"15px"}
+            display={["none", "none", "flex", "flex", "flex"]}
+          >
             {getDate(data.creation_date)}
           </Text>
         </Flex>
@@ -92,6 +97,15 @@ export default function Post({ data, userLoggin }) {
           ...
         </Text>
       </Flex>
+      <Text
+        fontSize="12px"
+        color="primaryGray.600"
+        ms={"55px"}
+        mt={"-10px"}
+        display={["flex", "flex", "none", "none", "none"]}
+      >
+        {getDate(data.creation_date)}
+      </Text>
       <Flex flexDir={"column"}>
         <Text
           fontSize="14px"
@@ -306,7 +320,12 @@ export default function Post({ data, userLoggin }) {
         <Text color="primaryGray.600" fontSize="12px" marginLeft="10px">
           {votes.length} likes
         </Text>
-        <Text color="primaryGray.600" fontSize="12px" marginLeft="auto" me='10px'>
+        <Text
+          color="primaryGray.600"
+          fontSize="12px"
+          marginLeft="auto"
+          me="10px"
+        >
           <Link href={commentsRoute}>{countComments} comentarios</Link>
         </Text>
       </Flex>
@@ -328,16 +347,16 @@ const getDate = (creationDate) => {
   const diffYears = Math.floor(diffMonths / 12);
 
   return diffYears > 0
-    ? `${diffYears} años`
+    ? `hace ${diffYears} años`
     : diffMonths > 0
-    ? `${diffMonths} meses`
+    ? `hace ${diffMonths} meses`
     : diffDays > 0
-    ? `${diffDays} dias`
+    ? `hace ${diffDays} dias`
     : diffHours > 0
-    ? `${diffHours} horas`
+    ? `hace ${diffHours} horas`
     : diffMinutes > 0
-    ? `${diffMinutes} minutos`
+    ? `hace ${diffMinutes} minutos`
     : diffSeconds > 0
-    ? `${diffSeconds} segundos`
-    : "0 segundos";
+    ? `hace ${diffSeconds} segundos`
+    : "hace 0 segundos";
 };
