@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 export default function Home() {
   const { status, data } = useSession();
   const [userLoggin, setUserLogin] = useState(false);
+  
 
   return (
     <Flex
@@ -22,7 +23,7 @@ export default function Home() {
         userLoggin={userLoggin}
         setUserLogin={setUserLogin}
       />
-      <CreatePostView session={{ status, data }} />
+      <CreatePostView session={{ status, data }} userLoggin={userLoggin} />
     </Flex>
   );
 }

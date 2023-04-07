@@ -1,11 +1,21 @@
-import { Flex, Image, Text, Input, Button } from "@chakra-ui/react";
+import { Flex, Image, Text, Input, Button, Link } from "@chakra-ui/react";
 import GoogleIcon from "@mui/icons-material/Google";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import axios from "axios";
 import { signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function Navbar({ session, userLoggin, setUserLogin }) {
   const [viewUserSettings, setViewUserSettings] = useState(false);
+
+  useEffect(() => {
+    if (session && session.status === "authenticated" && !userLoggin) {
+      const email = session.data.user.email;
+      axios.get(`/api/login/isloggedin/${email}`).then(({ data }) => {
+        if (data.length > 0) setUserLogin(data[0]);
+      });
+    }
+  }, [session]);
   return (
     <Flex
       w={["100vw", "80vw", "700px", "700px", "700px"]}
@@ -23,7 +33,7 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
       zIndex="10"
     >
       <Flex alignItems={"center"}>
-        {session.status === "authenticated" && (
+        {session && session.status === "authenticated" && (
           <Text
             letterSpacing=".4px"
             fontSize="14px"
@@ -66,15 +76,6 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
 const UserSettings = ({ session, userLoggin, setUserLogin }) => {
   const [registerData, setRegisterData] = useState({});
 
-  useEffect(() => {
-    if (session.status === "authenticated") {
-      const email = session.data.user.email;
-      axios.get(`/api/login/isloggedin/${email}`).then(({ data }) => {
-        if (data.length > 0) setUserLogin(data[0]);
-      });
-    }
-  }, [session]);
-
   const handleRegister = () => {
     if (session.status !== "authenticated") return;
     const data = {
@@ -108,7 +109,7 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
       borderRadius={"15px"}
       shadow={"2xl"}
     >
-      {session.status === "authenticated" ? (
+      {session && session.status === "authenticated" ? (
         <Flex flexDir={"column"} w={"100%"} alignItems={"center"}>
           {!userLoggin && (
             <Flex
@@ -162,6 +163,30 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
             _hover={{
               bg: "gray.200",
             }}
+            cursor={"pointer"}
+          >
+            <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>
+            <Link my={"8px"} href="/communities">
+              <Flex>
+                <Text>
+                  <PeopleAltIcon />
+                </Text>
+                <Text ms={"10px"}>Comunidades</Text>
+              </Flex>
+            </Link>
+            <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>
+          </Flex>
+          <Flex
+            w={"100%"}
+            h={"50px"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            mt={"15px"}
+            flexDir={"column"}
+            _hover={{
+              bg: "gray.200",
+            }}
+            cursor={"pointer"}
             onClick={() => signOut("google")}
           >
             <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>
@@ -185,6 +210,7 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
           _hover={{
             bg: "gray.200",
           }}
+          cursor={"pointer"}
           onClick={() => signIn("google")}
         >
           <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>

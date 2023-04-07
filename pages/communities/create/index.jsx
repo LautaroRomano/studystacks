@@ -1,13 +1,13 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import Post from "../components/Post";
-import CreatePost from "../components/CreatePost";
-import Navbar from "../components/Navbar";
+import Navbar from "../../../components/Navbar";
+import CreateCommunityView from "../../../components/communities/CreateCommunityView";
 import { useSession } from "next-auth/react";
 
 export default function Home() {
   const { status, data } = useSession();
   const [userLoggin, setUserLogin] = useState(false);
+
   return (
     <Flex
       bg="primaryWhite.500"
@@ -22,10 +22,9 @@ export default function Home() {
         userLoggin={userLoggin}
         setUserLogin={setUserLogin}
       />
-      <CreatePost />
-      <Post />
-      <Post />
-      <Post />
+      <CreateCommunityView session={{ status, data }} userLoggin={userLoggin}/>
     </Flex>
   );
 }
+
+export function Admin() {}
