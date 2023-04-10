@@ -24,6 +24,12 @@ const get = async (req, res) => {
       where sec.section_id = ?`,
       [section_id]
     );
+    for (const post of result) {
+      const [files] = await pool.query(
+        `select * from post_files where post_id = ?`, [post.post_id]
+      );
+      post.files = files
+    }
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);

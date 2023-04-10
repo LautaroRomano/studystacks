@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Link } from "@chakra-ui/react";
+import { Flex, Image, Text, Link, Button } from "@chakra-ui/react";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import axios from "axios";
@@ -129,108 +129,77 @@ export default function Post({ data, userLoggin }) {
         >
           {data.post_body}
         </Text>
-        <Flex
-          border={"1px solid #ababab"}
-          position={"relative"}
-          borderRadius={"0 15px 15px 15px"}
-          mt={"10px"}
-          flexDir={"column"}
-        >
-          <Flex my={"5px"}></Flex>
-          <Text
-            fontSize="15px"
-            color="primaryGray.500"
-            marginTop="16px"
-            lineHeight="1.7"
-            position={"absolute"}
-            top="-7"
-            left={"7"}
-            bg={"#fff"}
-            px="3px"
-          >
-            Archivos adjuntos
-          </Text>
+        {
+          data.files.length > 0 &&
           <Flex
-            w={"100%"}
-            color="primaryGray.500"
-            p={"10px"}
-            alignItems={"center"}
+            border={"1px solid #ababab"}
+            position={"relative"}
+            borderRadius={"0 15px 15px 15px"}
+            mt={"10px"}
+            flexDir={"column"}
           >
-            <Text color="warning.500">
-              <PictureAsPdfIcon />
-            </Text>
+            <Flex my={"5px"}></Flex>
             <Text
-              fontSize="14px"
+              fontSize="15px"
               color="primaryGray.500"
-              marginTop="5px"
+              marginTop="16px"
               lineHeight="1.7"
-              ms={"10px"}
-              mt={"-5px"}
+              position={"absolute"}
+              top="-7"
+              left={"7"}
+              bg={"#fff"}
+              px="3px"
             >
-              Enanos albinos link.pdf
+              Archivos adjuntos
             </Text>
+            {
+              data.files.map(file => (
+                <Flex
+                  w={"100%"}
+                  color="primaryGray.500"
+                  p={"10px"}
+                  alignItems={"center"}
+                  key={file.post_file_id}
+                >
+                  <Link
+                    href={file.path}
+                    w={"100%"}
+                    flexDir={"row"}
+                    display={"flex"}
+                    alignItems={"center"}
+                    target="_blank" // abre el archivo en una nueva pestaña
+                    rel="noopener noreferrer" // establece las políticas de seguridad adecuadas para los enlaces externos
+                  >
+                    <Text color="warning.500" display={"flex"}>
+                      <PictureAsPdfIcon />
+                    </Text>
+                    <Text
+                      display={"flex"}
+                      fontSize="14px"
+                      color="primaryGray.500"
+                      marginTop="5px"
+                      lineHeight="1.7"
+                      ms={"10px"}
+                      mt={"-5px"}
+                    >
+                      {file.file_name}
+                    </Text>
+                  </Link>
+                  <Button
+                    as="a"
+                    href={file.path}
+                    target="_blank" // abre el archivo en una nueva pestaña
+                    rel="noopener noreferrer" // establece las políticas de seguridad adecuadas para los enlaces externos
+                    ms="10px"
+                    download={file.file_name} // permite la descarga del archivo
+                  >
+                    Descargar
+                  </Button>
+                </Flex>
+              ))
+            }
           </Flex>
-          <Flex
-            w={"100%"}
-            color="primaryGray.500"
-            p={"10px"}
-            alignItems={"center"}
-          >
-            <Text color="warning.500">
-              <PictureAsPdfIcon />
-            </Text>
-            <Text
-              fontSize="14px"
-              color="primaryGray.500"
-              marginTop="5px"
-              lineHeight="1.7"
-              ms={"10px"}
-              mt={"-5px"}
-            >
-              Parcial 1 Fisica 2.pdf
-            </Text>
-          </Flex>
-          <Flex
-            w={"100%"}
-            color="primaryGray.500"
-            p={"10px"}
-            alignItems={"center"}
-          >
-            <Text color="warning.500">
-              <PictureAsPdfIcon />
-            </Text>
-            <Text
-              fontSize="14px"
-              color="primaryGray.500"
-              marginTop="5px"
-              lineHeight="1.7"
-              ms={"10px"}
-              mt={"-5px"}
-            >
-              Parcial 2 Fisica 2.pdf
-            </Text>
-          </Flex>
-          <Flex
-            w={"100%"}
-            color="primaryGray.500"
-            p={"10px"}
-            alignItems={"center"}
-          >
-            <Text color="warning.500">
-              <PictureAsPdfIcon />
-            </Text>
-            <Text
-              fontSize="14px"
-              color="primaryGray.500"
-              marginTop="5px"
-              lineHeight="1.7"
-              ms={"10px"}
-              mt={"-5px"}
-            >
-              Parcial 3 Fisica 2.pdf
-            </Text>
-          </Flex>
-        </Flex>
+        }
       </Flex>
       <Flex mt="20px" alignItems="center">
         <Flex marginRight="21px" alignItems="center" position={"relative"}>
@@ -262,7 +231,7 @@ export default function Post({ data, userLoggin }) {
             </Flex>
           )}
           {userLoggin &&
-          votes.find((vote) => vote.creator_user_id === userLoggin.user_id) ? (
+            votes.find((vote) => vote.creator_user_id === userLoggin.user_id) ? (
             <Text
               bg={"blue.100"}
               fontSize={"14px"}
@@ -354,14 +323,14 @@ const getDate = (creationDate) => {
   return diffYears > 0
     ? `hace ${diffYears} años`
     : diffMonths > 0
-    ? `hace ${diffMonths} meses`
-    : diffDays > 0
-    ? `hace ${diffDays} dias`
-    : diffHours > 0
-    ? `hace ${diffHours} horas`
-    : diffMinutes > 0
-    ? `hace ${diffMinutes} minutos`
-    : diffSeconds > 0
-    ? `hace ${diffSeconds} segundos`
-    : "hace 0 segundos";
+      ? `hace ${diffMonths} meses`
+      : diffDays > 0
+        ? `hace ${diffDays} dias`
+        : diffHours > 0
+          ? `hace ${diffHours} horas`
+          : diffMinutes > 0
+            ? `hace ${diffMinutes} minutos`
+            : diffSeconds > 0
+              ? `hace ${diffSeconds} segundos`
+              : "hace 0 segundos";
 };
