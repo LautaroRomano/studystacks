@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: studystacks
+-- Host: localhost    Database: studystacks
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -98,6 +98,32 @@ LOCK TABLES `communities_users` WRITE;
 /*!40000 ALTER TABLE `communities_users` DISABLE KEYS */;
 INSERT INTO `communities_users` VALUES (1,1,1,'2023-04-06 00:00:00'),(2,1,2,'2023-04-07 00:37:27');
 /*!40000 ALTER TABLE `communities_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_files`
+--
+
+DROP TABLE IF EXISTS `post_files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post_files` (
+  `post_file_id` int NOT NULL AUTO_INCREMENT,
+  `post_id` int DEFAULT NULL,
+  `path` varchar(250) DEFAULT NULL,
+  `file_name` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`post_file_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_files`
+--
+
+LOCK TABLES `post_files` WRITE;
+/*!40000 ALTER TABLE `post_files` DISABLE KEYS */;
+INSERT INTO `post_files` VALUES (1,3,'/pdf/aaaaaa.pdf','Primer parcial.pdf');
+/*!40000 ALTER TABLE `post_files` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -238,4 +264,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-07  0:38:38
+-- Dump completed on 2023-04-10 11:27:16
