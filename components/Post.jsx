@@ -1,6 +1,7 @@
 import { Flex, Image, Text, Link, Button } from "@chakra-ui/react";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -129,8 +130,7 @@ export default function Post({ data, userLoggin }) {
         >
           {data.post_body}
         </Text>
-        {
-          data.files.length > 0 &&
+        {data.files.length > 0 && (
           <Flex
             border={"1px solid #ababab"}
             position={"relative"}
@@ -152,54 +152,54 @@ export default function Post({ data, userLoggin }) {
             >
               Archivos adjuntos
             </Text>
-            {
-              data.files.map(file => (
-                <Flex
+            {data.files.map((file) => (
+              <Flex
+                w={"100%"}
+                color="primaryGray.500"
+                p={"10px"}
+                alignItems={"center"}
+                key={file.post_file_id}
+              >
+                <Link
+                  href={file.path}
                   w={"100%"}
-                  color="primaryGray.500"
-                  p={"10px"}
+                  flexDir={"row"}
+                  display={"flex"}
                   alignItems={"center"}
-                  key={file.post_file_id}
+                  target="_blank" // abre el archivo en una nueva pestaña
+                  rel="noopener noreferrer" // establece las políticas de seguridad adecuadas para los enlaces externos
                 >
-                  <Link
-                    href={file.path}
-                    w={"100%"}
-                    flexDir={"row"}
+                  <Text color="warning.500" display={"flex"}>
+                    <PictureAsPdfIcon />
+                  </Text>
+                  <Text
                     display={"flex"}
-                    alignItems={"center"}
-                    target="_blank" // abre el archivo en una nueva pestaña
-                    rel="noopener noreferrer" // establece las políticas de seguridad adecuadas para los enlaces externos
+                    fontSize="14px"
+                    color="primaryGray.500"
+                    marginTop="5px"
+                    lineHeight="1.7"
+                    ms={"10px"}
+                    mt={"-5px"}
                   >
-                    <Text color="warning.500" display={"flex"}>
-                      <PictureAsPdfIcon />
-                    </Text>
-                    <Text
-                      display={"flex"}
-                      fontSize="14px"
-                      color="primaryGray.500"
-                      marginTop="5px"
-                      lineHeight="1.7"
-                      ms={"10px"}
-                      mt={"-5px"}
-                    >
-                      {file.file_name}
-                    </Text>
-                  </Link>
-                  <Button
-                    as="a"
-                    href={file.path}
-                    target="_blank" // abre el archivo en una nueva pestaña
-                    rel="noopener noreferrer" // establece las políticas de seguridad adecuadas para los enlaces externos
-                    ms="10px"
-                    download={file.file_name} // permite la descarga del archivo
-                  >
-                    Descargar
-                  </Button>
-                </Flex>
-              ))
-            }
+                    {file.file_name}
+                  </Text>
+                </Link>
+                <Button
+                  as="a"
+                  href={file.path}
+                  target="_blank" // abre el archivo en una nueva pestaña
+                  rel="noopener noreferrer" // establece las políticas de seguridad adecuadas para los enlaces externos
+                  ms="10px"
+                  download={file.file_name} // permite la descarga del archivo
+                  size="sm"
+                  colorScheme="orange"
+                >
+                  <Text>{<DownloadIcon />}</Text>
+                </Button>
+              </Flex>
+            ))}
           </Flex>
-        }
+        )}
       </Flex>
       <Flex mt="20px" alignItems="center">
         <Flex marginRight="21px" alignItems="center" position={"relative"}>
@@ -231,7 +231,7 @@ export default function Post({ data, userLoggin }) {
             </Flex>
           )}
           {userLoggin &&
-            votes.find((vote) => vote.creator_user_id === userLoggin.user_id) ? (
+          votes.find((vote) => vote.creator_user_id === userLoggin.user_id) ? (
             <Text
               bg={"blue.100"}
               fontSize={"14px"}
@@ -323,14 +323,14 @@ const getDate = (creationDate) => {
   return diffYears > 0
     ? `hace ${diffYears} años`
     : diffMonths > 0
-      ? `hace ${diffMonths} meses`
-      : diffDays > 0
-        ? `hace ${diffDays} dias`
-        : diffHours > 0
-          ? `hace ${diffHours} horas`
-          : diffMinutes > 0
-            ? `hace ${diffMinutes} minutos`
-            : diffSeconds > 0
-              ? `hace ${diffSeconds} segundos`
-              : "hace 0 segundos";
+    ? `hace ${diffMonths} meses`
+    : diffDays > 0
+    ? `hace ${diffDays} dias`
+    : diffHours > 0
+    ? `hace ${diffHours} horas`
+    : diffMinutes > 0
+    ? `hace ${diffMinutes} minutos`
+    : diffSeconds > 0
+    ? `hace ${diffSeconds} segundos`
+    : "hace 0 segundos";
 };

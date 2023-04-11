@@ -1,4 +1,4 @@
-import { Flex, Image, Text, Input, Link } from "@chakra-ui/react";
+import { Flex, Input, Link } from "@chakra-ui/react";
 import EditIcon from "@mui/icons-material/Edit";
 export default function CreatePost() {
   return (

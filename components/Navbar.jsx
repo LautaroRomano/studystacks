@@ -75,6 +75,7 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
             placeholder="Buscar..."
             value=""
             onClick={() => setSearch(true)}
+            readOnly
           ></Input>
           <Flex position={"absolute"} right={1} top={"2"}>
             <SearchIcon />

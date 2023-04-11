@@ -8,7 +8,6 @@ import {
   Select,
   Link,
 } from "@chakra-ui/react";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import axios from "axios";
@@ -20,6 +19,7 @@ export default function Post({ session, userLoggin }) {
   const [sectionsList, setSectionsList] = useState([]);
   const [postData, setPostData] = useState({});
   const [succes, setSucces] = useState(false);
+  const [filesUploaded, setFilesUploaded] = useState([]);
 
   useEffect(() => {
     if (userLoggin)
@@ -52,6 +52,7 @@ export default function Post({ session, userLoggin }) {
       creator_user_id: userLoggin.user_id,
       community_id: postData.community_id,
       section_id: postData.section_id,
+      filesUploaded: filesUploaded,
     };
     axios.post(`/api/post`, data).then(({ data }) => {
       if (data.succes) setSucces(true);
@@ -215,85 +216,49 @@ export default function Post({ session, userLoggin }) {
               >
                 Archivos adjuntos
               </Text>
-              <Flex
-                w={"100%"}
-                color="primaryGray.500"
-                p={"10px"}
-                alignItems={"center"}
-              >
-                <Text color="warning.500">
-                  <PictureAsPdfIcon />
-                </Text>
-                <Text
-                  fontSize="14px"
+              {filesUploaded.length === 0 && (
+                <Flex
+                  w={"100%"}
                   color="primaryGray.500"
-                  marginTop="5px"
-                  lineHeight="1.7"
-                  ms={"10px"}
-                  mt={"-5px"}
+                  p={"10px"}
+                  alignItems={"center"}
                 >
-                  Enanos albinos link.pdf
-                </Text>
-              </Flex>
-              <Flex
-                w={"100%"}
-                color="primaryGray.500"
-                p={"10px"}
-                alignItems={"center"}
-              >
-                <Text color="warning.500">
-                  <PictureAsPdfIcon />
-                </Text>
-                <Text
-                  fontSize="14px"
+                  <Text
+                    fontSize="14px"
+                    color="primaryGray.600"
+                    marginTop="5px"
+                    lineHeight="1.7"
+                    ms={"10px"}
+                    mt={"-5px"}
+                  >
+                    Aqui podra ver los archivos que adjunte a su publicacion
+                  </Text>
+                </Flex>
+              )}
+              {filesUploaded.map((file) => (
+                <Flex
+                  w={"100%"}
                   color="primaryGray.500"
-                  marginTop="5px"
-                  lineHeight="1.7"
-                  ms={"10px"}
-                  mt={"-5px"}
+                  p={"10px"}
+                  alignItems={"center"}
                 >
-                  Parcial 1 Fisica 2.pdf
-                </Text>
-              </Flex>
-              <Flex
-                w={"100%"}
-                color="primaryGray.500"
-                p={"10px"}
-                alignItems={"center"}
-              >
-                <Text color="warning.500">
-                  <PictureAsPdfIcon />
-                </Text>
-                <Text
-                  fontSize="14px"
-                  color="primaryGray.500"
-                  marginTop="5px"
-                  lineHeight="1.7"
-                  ms={"10px"}
-                  mt={"-5px"}
-                >
-                  Parcial 2 Fisica 2.pdf
-                </Text>
-              </Flex>
-              <Flex
-                w={"100%"}
-                color="primaryGray.500"
-                bg={"gray.100"}
-                p={"10px"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                borderRadius={"0 0 15px 15px"}
-                cursor={"pointer"}
-                _hover={{
-                  bg: "gray.200",
-                }}
-              >
-                <Text color="warning.500">
-                  <FileUploadIcon />
-                </Text>
+                  <Text color="warning.500">
+                    <PictureAsPdfIcon />
+                  </Text>
+                  <Text
+                    fontSize="14px"
+                    color="primaryGray.500"
+                    marginTop="5px"
+                    lineHeight="1.7"
+                    ms={"10px"}
+                    mt={"-5px"}
+                  >
+                    {file.originalName}
+                  </Text>
+                </Flex>
+              ))}
 
-                <FileUploader />
-              </Flex>
+              <FileUploader setFilesUploaded={setFilesUploaded} />
             </Flex>
           </Flex>
           <Flex mt="20px" alignItems="center" justifyContent={"end"}>
