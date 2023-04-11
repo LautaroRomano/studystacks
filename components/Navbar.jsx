@@ -70,7 +70,10 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
             />
           </Link>
         </Flex>
-        <Flex position={"relative"}>
+        <Flex
+          position={"relative"}
+          display={["none", "none", "flex", "flex", "flex"]}
+        >
           <Input
             placeholder="Buscar..."
             value=""
@@ -78,6 +81,19 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
             readOnly
           ></Input>
           <Flex position={"absolute"} right={1} top={"2"}>
+            <SearchIcon />
+          </Flex>
+        </Flex>
+        <Flex
+          position={"relative"}
+          display={["flex", "flex", "none", "none", "none"]}
+        >
+          <Flex
+            bg={'primaryGray.700'}
+            p={'6px'}
+            borderRadius={'10%'}
+            onClick={() => setSearch(true)}
+          >
             <SearchIcon />
           </Flex>
         </Flex>

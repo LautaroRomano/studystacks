@@ -55,8 +55,8 @@ export default function Post({ data, userLoggin }) {
     <Flex
       w={["100vw", "80vw", "700px", "700px", "700px"]}
       bg="#fff"
-      paddingBottom="14px"
-      paddingX="14px"
+      paddingBottom={["10px", "10px", "20px", "30px", "30px"]}
+      paddingX={["10px", "10px", "20px", "30px", "34px"]}
       position="relative"
       flexDir={"column"}
     >
@@ -86,6 +86,7 @@ export default function Post({ data, userLoggin }) {
             bg={"primaryGray.700"}
             p={"5px"}
             borderRadius={"5px"}
+            display={["none", "flex", "flex", "flex", "flex"]}
           >
             /<Link href={communityRef}>{data.community_name}</Link>/
             <Link href={sectionRef}>{data.section_name}</Link>
@@ -112,6 +113,18 @@ export default function Post({ data, userLoggin }) {
       >
         {getDate(data.creation_date)}
       </Text>
+      <Text
+        fontSize="14px"
+        color="primaryGray.500"
+        ms={"15px"}
+        bg={"primaryGray.700"}
+        p={"5px"}
+        borderRadius={"5px"}
+        display={["flex", "none", "none", "none", "none"]}
+      >
+        /<Link href={communityRef}>{data.community_name}</Link>/
+        <Link href={sectionRef}>{data.section_name}</Link>
+      </Text>
       <Flex flexDir={"column"}>
         <Text
           fontSize="14px"
@@ -130,7 +143,7 @@ export default function Post({ data, userLoggin }) {
         >
           {data.post_body}
         </Text>
-        {data.files.length > 0 && (
+        {data.files && data.files.length > 0 && (
           <Flex
             border={"1px solid #ababab"}
             position={"relative"}
@@ -159,10 +172,11 @@ export default function Post({ data, userLoggin }) {
                 p={"10px"}
                 alignItems={"center"}
                 key={file.post_file_id}
+                justifyContent={"space-between"}
               >
                 <Link
                   href={file.path}
-                  w={"100%"}
+                  w={"80%"}
                   flexDir={"row"}
                   display={"flex"}
                   alignItems={"center"}
@@ -180,6 +194,7 @@ export default function Post({ data, userLoggin }) {
                     lineHeight="1.7"
                     ms={"10px"}
                     mt={"-5px"}
+                    overflow={"hidden"}
                   >
                     {file.file_name}
                   </Text>
@@ -192,9 +207,12 @@ export default function Post({ data, userLoggin }) {
                   ms="10px"
                   download={file.file_name} // permite la descarga del archivo
                   size="sm"
-                  colorScheme="orange"
+                  maxW={"20px"}
+                  maxH={"30px"}
                 >
-                  <Text>{<DownloadIcon />}</Text>
+                  <Text fontSize={"12px"} color={"primaryGray.500"}>
+                    {<DownloadIcon />}
+                  </Text>
                 </Button>
               </Flex>
             ))}
