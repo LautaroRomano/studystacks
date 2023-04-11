@@ -1,13 +1,27 @@
 import { useState } from "react";
 import Dropzone from "react-dropzone";
+import axios from "axios";
 
 function FileUploader() {
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileUpload = (acceptedFiles) => {
-    // Manejar la carga del archivo
+  const handleFileUpload = async (acceptedFiles) => {
     const file = acceptedFiles[0];
     setSelectedFile(file);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post("/api/uploadfile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
