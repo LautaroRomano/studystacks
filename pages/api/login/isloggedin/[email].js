@@ -29,7 +29,7 @@ const post = async (req, res) => {
     creator_user_id,
   } = req.body;
   try {
-    const [result] = await pool.query(`INSERT INTO Communities SET ?`, {
+    const [result] = await pool.query(`INSERT INTO communities SET ?`, {
       community_name,
       community_description,
       creation_date,

@@ -53,7 +53,7 @@ const put = async (req, res) => {
 
   try {
     const [result] = await pool.query(
-      `UPDATE Posts SET
+      `UPDATE posts SET
         post_title=?,
          post_body=?,
          creation_date=?,
@@ -81,7 +81,7 @@ const put = async (req, res) => {
 const deletef = async (req, res) => {
   const id = req.query.id;
   try {
-    const [result] = await pool.query(`DELETE FROM Posts WHERE post_id = ?`, [
+    const [result] = await pool.query(`DELETE FROM posts WHERE post_id = ?`, [
       id,
     ]);
     return res.status(200).json(result);

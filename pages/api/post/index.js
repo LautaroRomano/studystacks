@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
 const get = async (req, res) => {
   try {
-    const [result] = await pool.query(`SELECT * FROM Posts`);
+    const [result] = await pool.query(`SELECT * FROM posts`);
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);
@@ -23,7 +23,7 @@ const post = async (req, res) => {
     req.body;
   try {
     const [result] = await pool.query(
-      `INSERT INTO Posts SET creation_date=now(), ?`,
+      `INSERT INTO posts SET creation_date=now(), ?`,
       {
         post_title,
         post_body,

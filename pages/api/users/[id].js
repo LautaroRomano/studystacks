@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 const get = async (req, res) => {
     const id = req.query.id
     try {
-        const [result] = await pool.query(`SELECT * FROM Users WHERE user_id = ?`, [id]);
+        const [result] = await pool.query(`SELECT * FROM users WHERE user_id = ?`, [id]);
         return res.status(200).json(result);
     } catch (error) {
         console.log(error);
@@ -30,7 +30,7 @@ const put = async (req, res) => {
     const { username, email, password, registration_date, last_login_date } = req.body
 
     try {
-        const [result] = await pool.query(`UPDATE Users SET
+        const [result] = await pool.query(`UPDATE users SET
     username=?,
     email=?,
     password=?,
@@ -48,7 +48,7 @@ const put = async (req, res) => {
 const deletef = async (req, res) => {
     const id = req.query.id
     try {
-        const [result] = await pool.query(`DELETE FROM Users WHERE user_id = ?`, [id]);
+        const [result] = await pool.query(`DELETE FROM users WHERE user_id = ?`, [id]);
         return res.status(200).json(result);
     } catch (error) {
         console.log(error);
