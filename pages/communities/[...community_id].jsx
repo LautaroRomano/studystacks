@@ -1,13 +1,15 @@
 import Navbar from "../../components/Navbar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { Flex, Input, Button, Image, Text, Spacer } from "@chakra-ui/react";
+import { Flex, Input, Button, Image, Text, Spacer, Link } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Post from "../../components/Post";
 import CreatePost from "../../components/CreatePost";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+
+const NEW_SECTION_INIT = { name: '', description: '' }
 
 export default function Home() {
   const router = useRouter();
@@ -20,6 +22,24 @@ export default function Home() {
   const [postsList, setPosts] = useState([]);
   const [pertenezco, setPertenezco] = useState(false);
   const [viewTab, setViewTab] = useState(false);
+  const [addSection, setAddSection] = useState(NEW_SECTION_INIT);
+  const [newSection, setNewSection] = useState(false);
+
+  const handleSaveSection = () => {
+    if (addSection.name.length > 2) {
+      axios.post(`/api/section`, {
+        section_name: addSection.name,
+        section_description: addSection.description,
+        creator_user_id: userLoggin.user_id,
+        community_id: community_id
+      })
+        .then(() => {
+          setNewSection(false)
+          setAddSection(NEW_SECTION_INIT)
+          getSections();
+        })
+    }
+  }
 
   useEffect(() => {
     if (!userLoggin || !community_id) return;
@@ -74,7 +94,6 @@ export default function Home() {
   const getSections = () => {
     axios.get(`/api/section/community/${community_id}`).then(({ data }) => {
       setSections(data);
-      if (!sectionSelected) setSectionSelected(data[0].section_id);
     });
   };
 
@@ -122,13 +141,13 @@ export default function Home() {
           viewTab
             ? "50vw"
             : [
-                "0vw",
-                "0vw",
-                "0vw",
-                "calc((100vw - 700px)/2)",
-                "calc((100vw - 750px)/2)",
-                "calc((100vw - 750px)/2)",
-              ]
+              "0vw",
+              "0vw",
+              "0vw",
+              "calc((100vw - 700px)/2)",
+              "calc((100vw - 750px)/2)",
+              "calc((100vw - 750px)/2)",
+            ]
         }
         display={
           viewTab ? "flex" : ["none", "none", "none", "flex", "flex", "flex"]
@@ -190,22 +209,42 @@ export default function Home() {
         >
           {community.community_description}
         </Text>
-        {sections.map((sec) => (
-          <Text
-            key={sec.section_id}
-            fontSize={"16px"}
-            color={"primaryGray.500"}
-            fontWeight={"600"}
-            mt={"25px"}
-            bg={sectionSelected === sec.section_id && "primaryGray.700"}
-            _hover={{ bg: "primaryGray.700" }}
-            py={"8px"}
-            px={"15px"}
-            cursor={"pointer"}
-          >
-            {sec.section_name}
-          </Text>
-        ))}
+        <Flex mt={"20px"}></Flex>
+        {sections.map((sec) => {
+          const sectionChangeRef = `/communities/${community_id}/${sec.section_id}`
+          return (
+            <Link href={sectionChangeRef}>
+              <Text
+                key={sec.section_id}
+                fontSize={"16px"}
+                color={"primaryGray.500"}
+                fontWeight={"600"}
+                mt={"5px"}
+                bg={sectionSelected == sec.section_id && "primaryGray.700"}
+                _hover={{ bg: "primaryGray.700" }}
+                py={"8px"}
+                px={"15px"}
+                cursor={"pointer"}
+              >
+                {sec.section_name}
+              </Text>
+            </Link>
+          )
+        })}
+        {
+          newSection && (
+            <>
+              <Input size="sm" mt='5px' placeholder="Nombre de tu seccion" value={addSection.name} onChange={({ target }) => setAddSection(state => ({ ...state, name: target.value }))} />
+              <Input size="sm" mt='5px' placeholder="Descripcion" value={addSection.description} onChange={({ target }) => setAddSection(state => ({ ...state, description: target.value }))} />
+            </>
+          )
+        }
+        {
+          newSection ?
+            <Button size="sm" mx={'auto'} mt={'25px'} onClick={handleSaveSection} >Guardar</Button>
+            :
+            <Button size="sm" mx={'auto'} mt={'25px'} onClick={() => setNewSection(true)}>Añadir seccion</Button>
+        }
         <Spacer />
         <Flex>
           {!pertenezco ? (
