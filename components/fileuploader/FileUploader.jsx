@@ -2,7 +2,6 @@ import { useState } from "react";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { Flex, Text, Input } from "@chakra-ui/react";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 function FileUploader({ setFilesUploaded }) {
