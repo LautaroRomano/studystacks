@@ -9,7 +9,7 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
-  url: 'http://localhost:3000',
-  //url: process.env.NEXTAUTH_URL,
+  // url: 'http://localhost:3000',
+  url: process.env.NEXTAUTH_URL,
   secret: process.env.NEXTAUTH_SECRET,
 });
