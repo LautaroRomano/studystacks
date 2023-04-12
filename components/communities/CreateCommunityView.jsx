@@ -1,6 +1,4 @@
 import { Flex, Text, Textarea, Input, Button, Link } from "@chakra-ui/react";
-import AddIcon from "@mui/icons-material/Add";
-import HomeIcon from "@mui/icons-material/Home";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import axios from "axios";
 import { useState } from "react";
