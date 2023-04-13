@@ -33,13 +33,13 @@ const post = async (req, res) => {
         creator_user_id,
       }
     );
-    pool.query(`INSERT INTO section SET creation_date=now(), ?`, {
+    await pool.query(`INSERT INTO section SET creation_date=now(), ?`, {
       section_name: "Inicio",
       section_description: `Pagina de inicio de la comunidad ${community_name}`,
       creator_user_id,
       community_id: result.insertId,
     });
-    pool.query(`INSERT INTO communities_users SET creation_date=now(), ?`, {
+    await pool.query(`INSERT INTO communities_users SET creation_date=now(), ?`, {
       community_id: result.insertId,
       user_id: creator_user_id,
     });

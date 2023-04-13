@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+  [plugins.inputs]
+    buildCommand = "npm run build"
+  [plugins.inputs.environment]
+    NODE_VERSION = "14.x"
+    NEXT_TELEMETRY_DISABLED = "1"
+[[plugins]]
+  package = "@netlify/plugin-redirects"
+  [plugins.inputs]
+    redirects = "public/_redirects"
+
