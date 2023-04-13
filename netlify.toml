@@ -8,8 +8,8 @@
   [plugins.inputs.environment]
     NODE_VERSION = "14.x"
     NEXT_TELEMETRY_DISABLED = "1"
-[[plugins]]
-  package = "@netlify/plugin-redirects"
-  [plugins.inputs]
-    redirects = "public/_redirects"
+[[redirects]]
+  from = "/public/*"
+  to = "/public/:splat"
+  status = 200
 
