@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 const get = async (req, res) => {
   const post_id = req.query.post_id;
   try {
-    const [result] = await pool.query(`SELECT * FROM Votes WHERE post_id = ?`, [
+    const [result] = await pool.query(`SELECT * FROM votes WHERE post_id = ?`, [
       post_id,
     ]);
     return res.status(200).json(result);
@@ -33,7 +33,7 @@ const put = async (req, res) => {
 
   try {
     const [result] = await pool.query(
-      `UPDATE Votes SET
+      `UPDATE votes SET
         vote_value=?,
         creation_date=?,
         creator_user_id=?,
@@ -50,7 +50,7 @@ const put = async (req, res) => {
 const deletef = async (req, res) => {
   const post_id = req.query.id;
   try {
-    const [result] = await pool.query(`DELETE FROM Votes WHERE vote_id = ?`, [
+    const [result] = await pool.query(`DELETE FROM votes WHERE vote_id = ?`, [
       id,
     ]);
     return res.status(200).json(result);

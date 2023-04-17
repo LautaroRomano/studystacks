@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
 const get = async (req, res) => {
     try {
-        const [result] = await pool.query(`SELECT * FROM Comments`);
+        const [result] = await pool.query(`SELECT * FROM comments`);
         return res.status(200).json(result);
     } catch (error) {
         console.log(error);
@@ -22,7 +22,7 @@ const get = async (req, res) => {
 const post = async (req, res) => {
     const { comment_text, creator_user_id, post_id } = req.body
     try {
-        const [result] = await pool.query(`INSERT INTO Comments SET creation_date=now(), ?`, {
+        const [result] = await pool.query(`INSERT INTO comments SET creation_date=now(), ?`, {
             comment_text,
             creator_user_id,
             post_id

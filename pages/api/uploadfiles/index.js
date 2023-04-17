@@ -26,7 +26,7 @@ const uploadFiles = async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       if (err) {
         console.log(err);
-        res.status(500).send("Error al procesar archivo");
+        res.status(500).send({ ...err, msg: "Error al procesar archivo" });
         return;
       }
 
@@ -39,7 +39,7 @@ const uploadFiles = async (req, res) => {
           const filePath = `${form.uploadDir}${fileName}`;
 
           await fs.promises.rename(file.filepath, filePath);
-          uploadedFiles.push({ name: fileName, path: filePath, originalName:  file.originalFilename});
+          uploadedFiles.push({ name: fileName, path: filePath, originalName: file.originalFilename });
         }
       }
 
@@ -47,6 +47,6 @@ const uploadFiles = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error al procesar archivo");
+    res.status(500).send({ ...err, msg: "Error al procesar archivo" });
   }
 };

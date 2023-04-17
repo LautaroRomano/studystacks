@@ -23,7 +23,7 @@ const post = async (req, res) => {
     req.body;
   try {
     const [result] = await pool.query(
-      `INSERT INTO Posts SET creation_date=now(), ?`,
+      `INSERT INTO posts SET creation_date=now(), ?`,
       {
         post_title,
         post_body,

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   const get = async (req,res) => {
     try {
-      const [result] = await pool.query(`SELECT * FROM Votes`);
+      const [result] = await pool.query(`SELECT * FROM votes`);
       return res.status(200).json(result);
     } catch (error) {
       console.log(error);
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   const post = async (req,res) => {
     const { vote_value, creator_user_id, post_id, comment_id } = req.body
     try {
-      const [result] = await pool.query(`INSERT INTO Votes SET creation_date=now(), ?`,{
+      const [result] = await pool.query(`INSERT INTO votes SET creation_date=now(), ?`,{
         vote_value, 
         creator_user_id, 
         post_id, 
