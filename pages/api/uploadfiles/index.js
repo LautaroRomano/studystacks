@@ -1,5 +1,16 @@
-import fs from "fs";
+import AWS from "aws-sdk";
 import formidable from "formidable";
+import fs from "fs";
+
+//configurar AWS con las claves de acceso
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY || 'AKIAR5YFNPEHDDYZFH4K',
+  secretAccessKey: process.env.AWS_SECRET_KEY || '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',
+  region: 'sa-east-1'
+});
+
+// Crear instancia de S3
+const s3 = new AWS.S3();
 
 export const config = {
   api: {
@@ -10,43 +21,57 @@ export const config = {
 export default async function handler(req, res) {
   switch (req.method) {
     case "POST":
-      return await uploadFiles(req, res);
+      await uploadFiles(req, res);
+      break;
     default:
       res.setHeader("Allow", ["POST"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);
+      break;
   }
 }
 
 const uploadFiles = async (req, res) => {
+
+  const form = new formidable.IncomingForm();
+
   try {
-    const form = new formidable.IncomingForm();
-    form.uploadDir = "./public/pdf/";
-    form.keepExtensions = true;
 
+    const uploadedFiles = [];
+
+    form.multiples = true;
+    form.maxFileSize = 10 * 1024 * 1024; // límite de tamaño del archivo en bytes
     form.parse(req, async (err, fields, files) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send({ ...err, msg: "Error al procesar archivo" });
-        return;
-      }
+      const file = files.files;
+      console.log({ file })
+      if (err) throw err;
 
-      const uploadedFiles = [];
+      console.log(file)
 
-      for (const key in files) {
-        if (Object.hasOwnProperty.call(files, key)) {
-          const file = files[key];
-          const fileName = file.newFilename + ".pdf";
-          const filePath = `${form.uploadDir}${fileName}`;
+      const params = {
+        Bucket: 'studystacksfiles',
+        Key: file.originalFilename,
+        Body: fs.createReadStream(file.filepath)
+      };
 
-          await fs.promises.rename(file.filepath, filePath);
-          uploadedFiles.push({ name: fileName, path: filePath, originalName: file.originalFilename });
-        }
-      }
+      s3.upload(params, function (err, data) {
+        if (err) throw err;
+        console.log(`Archivo subido exitosamente a ${data.Location}`);
+      });
 
-      res.status(200).send({ success: "Archivos cargados exitosamente", files: uploadedFiles });
+
+      const uploadResult = await s3.putObject(params).promise();
+      console.log(uploadResult);
+
+      uploadedFiles.push({ name: file.newFilename, path: '', originalName: file.originalFilename });
+
     });
+
+
+
+    res.status(200).send({ success: "Archivos cargados exitosamente", files: uploadedFiles });
+
   } catch (err) {
     console.log(err);
-    res.status(500).send({ ...err, msg: "Error al procesar archivo" });
+    res.status(500).send({ ...err, msg: "Error al procesar archivo", files: [] });
   }
 };
