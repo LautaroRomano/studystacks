@@ -39,7 +39,7 @@ const post = async (req, res) => {
       creator_user_id,
       community_id: result.insertId,
     });
-    pool.query(`INSERT INTO communities_users SET creation_date=now(), ?`, {
+    pool.query(`INSERT INTO communities_users SET entry_date=now(), ?`, {
       community_id: result.insertId,
       user_id: creator_user_id,
     });
