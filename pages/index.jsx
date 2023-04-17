@@ -16,6 +16,10 @@ export default function Home({ posts }) {
       axios.get(`api/post/user/${userLoggin.user_id}`).then(({ data }) => {
         setPostsList(data);
       });
+    } else {
+      axios.get(`api/post/relevants`).then(({ data }) => {
+        setPostsList(data);
+      });
     }
   }, [userLoggin]);
 
