@@ -15,6 +15,9 @@ export default function Home({ posts }) {
     if (userLoggin) {
       axios.get(`api/post/user/${userLoggin.user_id}`).then(({ data }) => {
         setPostsList(data);
+        if (data.length === 0) axios.get(`api/post/relevants`).then(({ data }) => {
+          setPostsList(data);
+        });
       });
     } else {
       axios.get(`api/post/relevants`).then(({ data }) => {
