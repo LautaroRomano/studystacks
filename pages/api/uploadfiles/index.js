@@ -44,15 +44,15 @@ const uploadFiles = async (req, res) => {
 
       const params = {
         Bucket: 'studystacksfiles',
-        Key: file.originalFilename,
-        Body: fs.createReadStream(file.filepath)
+        Key: file.newFilename+'.pdf',
+        Body: fs.createReadStream(file.filepath),
+        ACL: 'public-read'
       };
 
       s3.upload(params, function (err, data) {
         if (err) throw err;
         const updateFile = { name: file.newFilename, path: data.Location, originalName: file.originalFilename }
         res.status(200).send({ success: "Archivos cargados exitosamente", files: [updateFile] });
-
       });
 
     });
