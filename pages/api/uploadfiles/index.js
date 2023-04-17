@@ -36,16 +36,11 @@ const uploadFiles = async (req, res) => {
 
   try {
 
-    const uploadedFiles = [];
-
     form.multiples = true;
     form.maxFileSize = 10 * 1024 * 1024; // límite de tamaño del archivo en bytes
     form.parse(req, async (err, fields, files) => {
       const file = files.files;
-      console.log({ file })
       if (err) throw err;
-
-      console.log(file)
 
       const params = {
         Bucket: 'studystacksfiles',
@@ -55,20 +50,12 @@ const uploadFiles = async (req, res) => {
 
       s3.upload(params, function (err, data) {
         if (err) throw err;
-        console.log(`Archivo subido exitosamente a ${data.Location}`);
+        const updateFile = { name: file.newFilename, path: data.Location, originalName: file.originalFilename }
+        res.status(200).send({ success: "Archivos cargados exitosamente", files: [updateFile] });
+
       });
 
-
-      const uploadResult = await s3.putObject(params).promise();
-      console.log(uploadResult);
-
-      uploadedFiles.push({ name: file.newFilename, path: '', originalName: file.originalFilename });
-
     });
-
-
-
-    res.status(200).send({ success: "Archivos cargados exitosamente", files: uploadedFiles });
 
   } catch (err) {
     console.log(err);
