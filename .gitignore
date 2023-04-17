@@ -39,3 +39,4 @@ package-lock.json
 package.json
 yarn.lock
 /public/pdf
+*.local
