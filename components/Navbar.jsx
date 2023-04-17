@@ -14,6 +14,7 @@ import { signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Search from "./Search";
+import Register from './user/Register'
 
 export default function Navbar({ session, userLoggin, setUserLogin }) {
   const [viewUserSettings, setViewUserSettings] = useState(false);
@@ -104,6 +105,7 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
           session={session}
           userLoggin={userLoggin}
           setUserLogin={setUserLogin}
+          setViewUserSettings={setViewUserSettings}
         />
       )}
       <Spacer></Spacer>
@@ -139,29 +141,7 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
   );
 }
 
-const UserSettings = ({ session, userLoggin, setUserLogin }) => {
-  const [registerData, setRegisterData] = useState({});
-
-  const handleRegister = () => {
-    if (session.status !== "authenticated") return;
-    const data = {
-      username: registerData.username,
-      email: session.data.user.email,
-      password: registerData.username,
-      last_login_date: null,
-      image: session.data.user.image,
-    };
-
-    axios.post(`/api/users`, data).then(({ data }) => {
-      if (data.length > 0) setUserLogin(data[0]);
-    });
-  };
-  const handleChangeData = ({ target }) => {
-    setRegisterData((data) => ({
-      ...data,
-      [target.name]: target.value,
-    }));
-  };
+const UserSettings = ({ session, userLoggin, setUserLogin,setViewUserSettings }) => {
 
   return (
     <Flex
@@ -177,48 +157,6 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
     >
       {session && session.status === "authenticated" ? (
         <Flex flexDir={"column"} w={"100%"} alignItems={"center"}>
-          {!userLoggin && (
-            <Flex
-              w={"100%"}
-              alignItems={"center"}
-              justifyContent={"center"}
-              mt={"15px"}
-              flexDir={"column"}
-            >
-              <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>
-              <Flex my={"8px"}>
-                <Text ms={"10px"}>Termina de completar tus datos</Text>
-              </Flex>
-              <Flex my={"8px"} flexDir={"column"}>
-                <Text ms={"10px"}>Como quieres que te llamemos?</Text>
-                <Input
-                  placeholder={"@"}
-                  name="username"
-                  value={registerData.username}
-                  onChange={handleChangeData}
-                ></Input>
-              </Flex>
-              <Flex my={"8px"} flexDir={"column"}>
-                <Text ms={"10px"}>Crea una contrasena</Text>
-                <Input
-                  placeholder={"******"}
-                  name="password"
-                  value={registerData.password}
-                  onChange={handleChangeData}
-                ></Input>
-              </Flex>
-              <Button
-                colorScheme="blue"
-                size="sm"
-                mb={"10px"}
-                onClick={handleRegister}
-              >
-                Guardar
-              </Button>
-              <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>
-            </Flex>
-          )}
-
           <Flex
             w={"100%"}
             h={"50px"}
@@ -229,8 +167,9 @@ const UserSettings = ({ session, userLoggin, setUserLogin }) => {
             _hover={{
               bg: "gray.200",
             }}
-            cursor={"pointer"}
           >
+            {!userLoggin && <Register session={session} userLoggin={userLoggin} setUserLogin={setUserLogin} setViewUserSettings={setViewUserSettings}/>}
+
             <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>
             <Link my={"8px"} href="/communities">
               <Flex>
