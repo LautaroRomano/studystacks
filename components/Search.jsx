@@ -42,9 +42,9 @@ export default function Search({ session, userLoggin, closedModal }) {
           bg={"primaryGray.700"}
           border={"5px"}
           p={"5px"}
-          justifyContent={'center'}
-          alignItems={'center'}
-          onClick={()=>closedModal()}
+          justifyContent={"center"}
+          alignItems={"center"}
+          onClick={() => closedModal()}
         >
           <CloseIcon />
         </Flex>
@@ -59,7 +59,7 @@ export default function Search({ session, userLoggin, closedModal }) {
             <SearchIcon />
           </Flex>
         </Flex>
-        <Flex>
+        <Flex flexDir={"column"} overflowY={'scroll'} h={'100%'}>
           {allCommunities
             .filter(
               (f) =>
@@ -68,7 +68,7 @@ export default function Search({ session, userLoggin, closedModal }) {
             .map((com) => {
               const ref = `/communities/${com.community_id}`;
               return (
-                <Link href={ref} w={"100%"} key={com.community_id}>
+                <Link href={ref} w={"100%"} key={com.community_id} mt={'5px'}>
                   <Flex
                     bg={"primaryGray.800"}
                     p={"5px"}
