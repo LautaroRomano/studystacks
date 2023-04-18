@@ -185,7 +185,7 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
                 <Flex mt={"20px"}></Flex>
                 {sections.map((sec) => {
                     const sectionChangeRef = `/communities/${community_id}/${sec.section_id}`
-                    const chatRef = `/chat/${community_id}/${sec.section_id}`
+                    const chatRef = `/chat/${community_id}/${sec.section_id}/${sec.chat_id}`
                     return (
                         <Text
                             key={sec.section_id}

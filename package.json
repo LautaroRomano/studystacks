@@ -46,7 +46,8 @@
     "sass": "^1.62.0",
     "stylis": "^4.1.1",
     "stylis-plugin-rtl": "2.0.2",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "ws": "^8.13.0"
   },
   "scripts": {
     "dev": "next dev",

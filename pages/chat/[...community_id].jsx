@@ -9,12 +9,38 @@ import CommunityDashboard from '../../components/communities/CommunityDashboard'
 
 export default function Home() {
     const router = useRouter();
-    const [community_id, section_id] = router.query.community_id || [null, null];
+    const [community_id, section_id, chat_id] = router.query.community_id || [null, null, null];
     const { status, data } = useSession();
     const [userLoggin, setUserLogin] = useState(false);
     const [sectionSelected, setSectionSelected] = useState(null);
     const [messagesList, setMessagesList] = useState([]);
     const [newMessage, setNewMessage] = useState('')
+    const [ws, setWs] = useState(null);
+
+    useEffect(() => {
+        try {
+            const newWs = new WebSocket('ws://localhost:8080');
+            newWs.onopen = function () {
+                console.log('Connected to WebSocket server');
+            };
+            newWs.onmessage = function (event) {
+                event.data.text().then(data => {
+                    console.log(data)
+                    if (data[0] !== '{') return
+                    const nData = JSON.parse(data);
+                    if (nData.newMessage) {
+                        setMessagesList(prevList => [...prevList, nData.newMessage]);
+                    }
+                })
+            };
+            newWs.onclose = function () {
+                console.log('Disconnected from WebSocket server');
+            };
+            setWs(newWs);
+        } catch (error) {
+            console.log(error)
+        }
+    }, []);
 
     useEffect(() => {
         if (!section_id) return;
@@ -33,16 +59,26 @@ export default function Home() {
     };
 
     const handleSendMessage = () => {
-        if (userLoggin.user_id && newMessage.length > 0 && section_id)
-            axios.post(`/api/messages/user/${userLoggin.user_id}`, {
+        if (userLoggin.user_id && newMessage.length > 0 && section_id && ws) {
+            const messageData = {
                 message: newMessage,
-                section_id: section_id
-            })
+                section_id: section_id,
+                user_id: userLoggin.user_id
+            };
+            axios.post(`/api/messages/user/${userLoggin.user_id}`, messageData)
                 .then(({ data }) => {
-                    getMessages();
-                    setNewMessage('')
+                    setNewMessage('');
+                    ws.send(JSON.stringify({
+                        newMessage: {
+                            ...messageData,
+                            date: new Date(),
+                            chat_id: chat_id,
+                            username: userLoggin.username,
+                            image: userLoggin.image,
+                        }
+                    }));
                 });
-        else console.log('no se pudo enviar el mensaje', { userLoggin: userLoggin.user_id, newMessageLength: newMessage.length > 0, section_id: section_id })
+        }
     }
 
     return (
