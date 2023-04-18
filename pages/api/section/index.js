@@ -28,6 +28,9 @@ const post = async (req, res) => {
       creator_user_id,
       community_id
     });
+    await pool.query(`insert into chats values(0,?)`, [
+      result.insertId
+    ]);
     return res.status(200).json(result);
   } catch (error) {
     console.log(error);

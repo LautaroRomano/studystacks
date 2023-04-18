@@ -33,7 +33,7 @@ const post = async (req, res) => {
         creator_user_id,
       }
     );
-    await pool.query(`INSERT INTO section SET creation_date=now(), ?`, {
+    const [section] = await pool.query(`INSERT INTO section SET creation_date=now(), ?`, {
       section_name: "Inicio",
       section_description: `Pagina de inicio de la comunidad ${community_name}`,
       creator_user_id,
@@ -45,6 +45,10 @@ const post = async (req, res) => {
       community_id: result.insertId,
       user_id: creator_user_id,
     });
+
+    await pool.query(`insert into chats values(0,?)`, [
+      section.insertId
+    ]);
     return res.status(200).json({ succes: true });
   } catch (error) {
     console.log(error);

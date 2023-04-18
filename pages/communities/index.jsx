@@ -143,25 +143,26 @@ export default function Home() {
                 color={"primaryGray.500"}
               ></Input>
             </Flex>
-
-            {communitiesList.map((community) => {
-              const ref = `/communities/${community.community_id}`;
-              return (
-                <Link href={ref}>
-                  <Flex
-                    key={community.community_id}
-                    color={"primaryGray.500"}
-                    px={"60px"}
-                    py={"10px"}
-                    my={"10px"}
-                    _hover={{ bg: "primaryGray.700" }}
-                    cursor={"pointer"}
-                  >
-                    <Text>{community.community_name}</Text>
-                  </Flex>
-                </Link>
-              );
-            })}
+            <Flex flexDir={"column"} maxH={"50vh"} overflowY={"scroll"}>
+              {communitiesList.map((community) => {
+                const ref = `/communities/${community.community_id}`;
+                return (
+                  <Link href={ref} mt={"5px"}>
+                    <Flex
+                      key={community.community_id}
+                      color={"primaryGray.500"}
+                      px={"60px"}
+                      py={"10px"}
+                      my={"10px"}
+                      _hover={{ bg: "primaryGray.700" }}
+                      cursor={"pointer"}
+                    >
+                      <Text>{community.community_name}</Text>
+                    </Flex>
+                  </Link>
+                );
+              })}
+            </Flex>
 
             <Flex flexDir={"column"}></Flex>
           </>

@@ -1,4 +1,5 @@
 import { pool } from "../../../config/database";
+import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
   switch (req.method) {
@@ -19,14 +20,18 @@ const get = async (req, res) => {
 };
 
 const post = async (req, res) => {
-  const { username, email, password, last_login_date,image } = req.body;
+  const { username, email, password, last_login_date, image } = req.body;
+
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+
   try {
     const [result] = await pool.query(
       `INSERT INTO users SET registration_date=now(), ?`,
       {
         username,
         email,
-        password,
+        password: hashedPassword,
         last_login_date,
         image,
       }

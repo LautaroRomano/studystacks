@@ -89,6 +89,7 @@ export default function Search({ session, userLoggin, setUserLogin, setViewUserS
                         <Input
                             placeholder={"******"}
                             name="password"
+                            type="password"
                             value={registerData.password}
                             onChange={handleChangeData}
                         ></Input>
