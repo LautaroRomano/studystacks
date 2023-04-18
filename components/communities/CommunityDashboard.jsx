@@ -117,7 +117,7 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
                             "0vw",
                             "0vw",
                             "0vw",
-                            "calc((100vw - 700px)/2)",
+                            "calc((100vw - 750px)/2)",
                             "calc((100vw - 750px)/2)",
                             "calc((100vw - 750px)/2)",
                         ]
@@ -245,7 +245,6 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
                 </Flex>
             </Flex>
             {props.children}
-            <Flex mb={"50px"}></Flex>
         </>
     );
 }
