@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `chats`
+--
+
+DROP TABLE IF EXISTS `chats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chats` (
+  `chat_id` int NOT NULL AUTO_INCREMENT,
+  `section_id` int NOT NULL,
+  PRIMARY KEY (`chat_id`),
+  KEY `section_id` (`section_id`),
+  CONSTRAINT `chats_ibfk_1` FOREIGN KEY (`section_id`) REFERENCES `section` (`section_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chats`
+--
+
+LOCK TABLES `chats` WRITE;
+/*!40000 ALTER TABLE `chats` DISABLE KEYS */;
+INSERT INTO `chats` VALUES (1,1);
+/*!40000 ALTER TABLE `chats` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `comments`
 --
 
@@ -87,7 +113,7 @@ CREATE TABLE `communities_users` (
   `user_id` int DEFAULT NULL,
   `entry_date` datetime NOT NULL,
   PRIMARY KEY (`communities_users_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,8 +122,39 @@ CREATE TABLE `communities_users` (
 
 LOCK TABLES `communities_users` WRITE;
 /*!40000 ALTER TABLE `communities_users` DISABLE KEYS */;
-INSERT INTO `communities_users` VALUES (1,1,1,'2023-04-06 00:00:00'),(2,1,2,'2023-04-07 00:37:27');
+INSERT INTO `communities_users` VALUES (2,1,2,'2023-04-07 00:37:27'),(3,1,1,'2023-04-12 09:21:12'),(4,1,3,'2023-04-17 12:32:17');
 /*!40000 ALTER TABLE `communities_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `messages`
+--
+
+DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `messages` (
+  `message_id` int NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
+  `message` text NOT NULL,
+  `chat_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `chat_id` (`chat_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`chat_id`),
+  CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `messages`
+--
+
+LOCK TABLES `messages` WRITE;
+/*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+INSERT INTO `messages` VALUES (1,'2023-04-18 10:59:35','hola!',1,3),(2,'2023-04-18 10:59:56','jajajaja',1,3),(3,'2023-04-18 11:09:16','hola boludo',1,1);
+/*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -113,7 +170,7 @@ CREATE TABLE `post_files` (
   `path` varchar(250) DEFAULT NULL,
   `file_name` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`post_file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +179,7 @@ CREATE TABLE `post_files` (
 
 LOCK TABLES `post_files` WRITE;
 /*!40000 ALTER TABLE `post_files` DISABLE KEYS */;
-INSERT INTO `post_files` VALUES (1,3,'/pdf/aaaaaa.pdf','Primer parcial.pdf');
+INSERT INTO `post_files` VALUES (1,3,'/pdf/aaaaaa.pdf','Primer parcial.pdf'),(2,4,'/pdf/149d5673a5db708cd19bfd500.pdf','Segundo parcial.pdf'),(3,5,'https://studystacksfiles.s3.sa-east-1.amazonaws.com/Segundo%20parcial.pdf','Segundo parcial.pdf');
 /*!40000 ALTER TABLE `post_files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +205,7 @@ CREATE TABLE `posts` (
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`),
   CONSTRAINT `posts_ibfk_3` FOREIGN KEY (`section_id`) REFERENCES `section` (`section_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +214,7 @@ CREATE TABLE `posts` (
 
 LOCK TABLES `posts` WRITE;
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` VALUES (1,'Primer paracial de fisica 2 anio 2022','Este es el primer parcial que se tomo de fisica 2, se lo tomo en la fecha 06/04/2022 por el profesor araujo.','2023-04-07 00:00:00',1,1,1),(2,'Primer paracial de fisica 2 anio 2022','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','2023-04-07 01:44:40',1,1,1),(3,'Primer paracial de fisica 2 anio 2022','fdssssssssssssssssssssss','2023-04-06 22:47:58',1,1,1);
+INSERT INTO `posts` VALUES (1,'Primer paracial de fisica 2 anio 2022','Este es el primer parcial que se tomo de fisica 2, se lo tomo en la fecha 06/04/2022 por el profesor araujo.','2023-04-11 00:00:00',1,1,1),(2,'Primer paracial de fisica 2 anio 2022','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','2023-04-12 01:44:40',1,1,1),(3,'Primer paracial de fisica 2 anio 2022','fdssssssssssssssssssssss','2023-04-13 22:47:58',1,1,1),(4,'Segundo parcial','parcial de fisica 2','2023-04-14 09:34:45',1,1,2),(5,'Parcial 2','parcial 2 jaja','2023-04-17 12:32:39',3,1,2);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +237,7 @@ CREATE TABLE `section` (
   KEY `community_id` (`community_id`),
   CONSTRAINT `section_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `section_ibfk_2` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +246,7 @@ CREATE TABLE `section` (
 
 LOCK TABLES `section` WRITE;
 /*!40000 ALTER TABLE `section` DISABLE KEYS */;
-INSERT INTO `section` VALUES (1,'Inicio','Pagina de inicio de la comunidad UTN - Fisica II','2023-04-06 00:00:00',1,1);
+INSERT INTO `section` VALUES (1,'Inicio','Pagina de inicio de la comunidad UTN - Fisica II','2023-04-06 00:00:00',1,1),(2,'Parciales','parciales','2023-04-12 08:58:58',1,1);
 /*!40000 ALTER TABLE `section` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,7 +266,7 @@ CREATE TABLE `users` (
   `last_login_date` datetime DEFAULT NULL,
   `image` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +275,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'exe_romano','lautarooyt837@gmail.com','exe_romano','2023-04-06 00:00:00',NULL,'https://lh3.googleusercontent.com/a/AGNmyxYjp71Ut0GOer_dThhgqEjzyBpkdH-TT2W7lzU44A=s96-c'),(2,'Usuario45','sistemanumerador@gmail.com','Usuario45','2023-04-07 00:19:40',NULL,'https://lh3.googleusercontent.com/a/AGNmyxaexACpt08OysrsXTNLA5Ga7v92_8u4itq9fDon=s96-c');
+INSERT INTO `users` VALUES (1,'exe_romano','lautarooyt837@gmail.com','exe_romano','2023-04-06 00:00:00',NULL,'https://lh3.googleusercontent.com/a/AGNmyxYjp71Ut0GOer_dThhgqEjzyBpkdH-TT2W7lzU44A=s96-c'),(2,'Usuario45','sistemanumerador@gmail.com','Usuario45','2023-04-07 00:19:40',NULL,'https://lh3.googleusercontent.com/a/AGNmyxaexACpt08OysrsXTNLA5Ga7v92_8u4itq9fDon=s96-c'),(3,'Scruppy','scruppyventas@gmail.com','Scruppy','2023-04-17 09:38:17',NULL,'https://lh3.googleusercontent.com/a/AGNmyxZyd2X9Ncvd_6SMecRAFlbf7MdZ-u7ADw2EnOhN=s96-c');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,7 +300,7 @@ CREATE TABLE `votes` (
   CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `votes_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`post_id`),
   CONSTRAINT `votes_ibfk_3` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`comment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,6 +309,7 @@ CREATE TABLE `votes` (
 
 LOCK TABLES `votes` WRITE;
 /*!40000 ALTER TABLE `votes` DISABLE KEYS */;
+INSERT INTO `votes` VALUES (1,1,'2023-04-17 09:36:00',1,1,NULL),(2,1,'2023-04-17 09:36:03',1,2,NULL),(3,2,'2023-04-17 09:36:05',1,3,NULL),(4,2,'2023-04-17 09:36:07',1,4,NULL);
 /*!40000 ALTER TABLE `votes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -264,4 +322,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-10 11:27:16
+-- Dump completed on 2023-04-18 11:13:18
