@@ -18,20 +18,21 @@ export default function Home() {
     const [ws, setWs] = useState(null);
 
     useEffect(() => {
+        if(!userLoggin || ws) return
         try {
-            const newWs = new WebSocket('ws://localhost:8080');
+            const sessionId = Math.random().toString(36).substring(2);
+            const newWs = new WebSocket(`ws://localhost:8080?sessionId=${sessionId}`);
+
             newWs.onopen = function () {
                 console.log('Connected to WebSocket server');
             };
             newWs.onmessage = function (event) {
-                event.data.text().then(data => {
-                    console.log(data)
-                    if (data[0] !== '{') return
+                    const data = event.data
                     const nData = JSON.parse(data);
                     if (nData.newMessage) {
+                        if (nData.newMessage.chat_id !== chat_id ) return
                         setMessagesList(prevList => [...prevList, nData.newMessage]);
                     }
-                })
             };
             newWs.onclose = function () {
                 console.log('Disconnected from WebSocket server');
@@ -40,7 +41,7 @@ export default function Home() {
         } catch (error) {
             console.log(error)
         }
-    }, []);
+    }, [userLoggin]);
 
     useEffect(() => {
         if (!section_id) return;
@@ -58,6 +59,12 @@ export default function Home() {
         });
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+          handleSendMessage();
+        }
+      }      
+
     const handleSendMessage = () => {
         if (userLoggin.user_id && newMessage.length > 0 && section_id && ws) {
             const messageData = {
@@ -65,9 +72,9 @@ export default function Home() {
                 section_id: section_id,
                 user_id: userLoggin.user_id
             };
+            setNewMessage('');
             axios.post(`/api/messages/user/${userLoggin.user_id}`, messageData)
                 .then(({ data }) => {
-                    setNewMessage('');
                     ws.send(JSON.stringify({
                         newMessage: {
                             ...messageData,
@@ -127,7 +134,7 @@ export default function Home() {
                         })
                     }
                     <Flex alignItems={'center'}>
-                        <Input placeholder="Mensaje..." value={newMessage} onChange={({ target }) => setNewMessage(target.value)}></Input>
+                        <Input placeholder="Mensaje..." value={newMessage} onChange={({ target }) => setNewMessage(target.value)} onKeyDown={handleKeyDown}></Input>
                         <Button size="sm" colorScheme="blue" ms={'5px'} onClick={handleSendMessage}>Enviar</Button>
                     </Flex>
                 </Flex>
