@@ -21,7 +21,7 @@ export default function Home() {
         if(!userLoggin || ws) return
         try {
             const sessionId = Math.random().toString(36).substring(2);
-            const newWs = new WebSocket(`wss://spontaneous-ganache-93ffee.netlify.app?sessionId=${sessionId}`);
+            const newWs = new WebSocket(`wss://spontaneous-ganache-93ffee.netlify.app:403?sessionId=${sessionId}`);
 
             newWs.onopen = function () {
                 console.log('Connected to WebSocket server');
