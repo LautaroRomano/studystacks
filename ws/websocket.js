@@ -4,7 +4,7 @@ const connections = new Set();
 
 export default function handler(req, res) {
   try {
-    const wss = new WebSocket.Server({ port: 8080 });
+    const wss = new WebSocket.Server({ port: 402 });
 
     wss.on("connection", function connection(ws, req) {
       connections.add(ws);
