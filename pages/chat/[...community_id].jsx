@@ -7,6 +7,8 @@ import { useEffect, useState, useRef } from "react";
 import styles from '../../styles/Chat.module.scss';
 import CommunityDashboard from '../../components/communities/CommunityDashboard'
 
+const HOST = 'localhost'
+
 export default function Home() {
     const router = useRouter();
     const [community_id, section_id, chat_id] = router.query.community_id || [null, null, null];
@@ -19,7 +21,7 @@ export default function Home() {
     const messagesRef = useRef(null);
 
     useEffect(() => {
-        if (messagesRef.current && messagesRef.current.scrollTop <= 10) {
+        if (messagesRef.current && messagesRef.current.scrollTop <= 50) {
           messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
         }
       }, [messagesList]);
@@ -28,7 +30,7 @@ export default function Home() {
         if(!userLoggin || ws) return
         try {
             const sessionId = Math.random().toString(36).substring(2);
-            const newWs = new WebSocket(`ws://localhost:8080?sessionId=${sessionId}`);
+            const newWs = new WebSocket(`ws://${HOST}:8080?sessionId=${sessionId}`);
 
             newWs.onopen = function () {
                 console.log('Connected to WebSocket server');

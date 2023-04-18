@@ -10,7 +10,6 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
     const [community, setCommunity] = useState({});
     const [sections, setSections] = useState([]);
     const [sectionSelected, setSectionSelected] = useState(null);
-    const [chatSelect, setChatSelect] = useState(null);
     const [pertenezco, setPertenezco] = useState(false);
     const [viewTab, setViewTab] = useState(false);
     const [addSection, setAddSection] = useState(NEW_SECTION_INIT);
@@ -43,11 +42,6 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
         if (!section_id) return;
         setSectionSelected(section_id);
     }, [section_id]);
-
-    useEffect(() => {
-        if (!chat_id) return;
-        setChatSelect(chat_id);
-    }, [chat_id]);
 
     const pertenezcoVerify = () => {
         axios
