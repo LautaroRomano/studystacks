@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 export default function Login() {
 
   const [error, setError] = useState(null)
+  const [callbackUrl , setCallbackUrl] = useState("/")
   const router = useRouter();
 
   useEffect(()=>{
