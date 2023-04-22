@@ -21,7 +21,7 @@ export default function Home() {
         if(!userLoggin || ws) return
         try {
             const sessionId = Math.random().toString(36).substring(2);
-            const newWs = new WebSocket(`ws://localhost:8080?sessionId=${sessionId}`);
+            const newWs = new WebSocket(`ws://ec2-18-229-138-247.sa-east-1.compute.amazonaws.com:8080?sessionId=${sessionId}`);
 
             newWs.onopen = function () {
                 console.log('Connected to WebSocket server');
