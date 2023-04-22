@@ -3,9 +3,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Flex, Input, Button, Text, Image } from "@chakra-ui/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styles from '../../styles/Chat.module.scss';
 import CommunityDashboard from '../../components/communities/CommunityDashboard'
+
+const HOST = 'localhost'
 
 export default function Home() {
     const router = useRouter();
@@ -16,6 +18,13 @@ export default function Home() {
     const [messagesList, setMessagesList] = useState([]);
     const [newMessage, setNewMessage] = useState('')
     const [ws, setWs] = useState(null);
+    const messagesRef = useRef(null);
+
+    useEffect(() => {
+        if (messagesRef.current && messagesRef.current.scrollTop <= 50) {
+          messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
+      }, [messagesList]);
 
     useEffect(() => {
         if(!userLoggin || ws) return
@@ -117,6 +126,7 @@ export default function Home() {
                     mt={"65px"}
                     h={'100%'}
                 >
+                    <Flex className={styles.chatContainer} ref={messagesRef}>
                     {
                         messagesList.map(mes => {
                             return <Flex w={'100%'} flexDir={mes.user_id === userLoggin.user_id ? 'row-reverse' : 'row'}>
@@ -133,6 +143,7 @@ export default function Home() {
                             </Flex>
                         })
                     }
+                    </Flex>
                     <Flex alignItems={'center'}>
                         <Input placeholder="Mensaje..." value={newMessage} onChange={({ target }) => setNewMessage(target.value)} onKeyDown={handleKeyDown}></Input>
                         <Button size="sm" colorScheme="blue" ms={'5px'} onClick={handleSendMessage}>Enviar</Button>

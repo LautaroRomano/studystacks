@@ -5,8 +5,13 @@ $chatThread-bgd-color:        rgba(25,147,147,0.2);
 
 .chatThread {
 	list-style: none;
-	overflow-y: scroll;
+	overflow-y: none;
   	overflow-x: hidden;
+}
+
+.chatContainer{
+	flex-direction: column;
+	overflow-y: scroll;
 }
 
 .chatThread .li {

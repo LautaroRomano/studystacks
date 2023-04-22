@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DehazeIcon from "@mui/icons-material/Dehaze";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ForumIcon from '@mui/icons-material/Forum';
 
 const NEW_SECTION_INIT = { name: '', description: '' }
 
@@ -10,7 +11,6 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
     const [community, setCommunity] = useState({});
     const [sections, setSections] = useState([]);
     const [sectionSelected, setSectionSelected] = useState(null);
-    const [chatSelect, setChatSelect] = useState(null);
     const [pertenezco, setPertenezco] = useState(false);
     const [viewTab, setViewTab] = useState(false);
     const [addSection, setAddSection] = useState(NEW_SECTION_INIT);
@@ -43,11 +43,6 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
         if (!section_id) return;
         setSectionSelected(section_id);
     }, [section_id]);
-
-    useEffect(() => {
-        if (!chat_id) return;
-        setChatSelect(chat_id);
-    }, [chat_id]);
 
     const pertenezcoVerify = () => {
         axios
@@ -117,7 +112,7 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
                             "0vw",
                             "0vw",
                             "0vw",
-                            "calc((100vw - 700px)/2)",
+                            "calc((100vw - 750px)/2)",
                             "calc((100vw - 750px)/2)",
                             "calc((100vw - 750px)/2)",
                         ]
@@ -136,7 +131,7 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
                 py={"35px"}
                 boxShadow={"0px 6px 9px -1px rgba(161,161,161,1)"}
                 borderBottom={"1px solid #ababab"}
-                zIndex="10"
+                zIndex="1000"
                 flexDir={"column"}
             >
                 <Flex
@@ -192,19 +187,17 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
                             fontSize={"16px"}
                             color={"primaryGray.500"}
                             fontWeight={"600"}
-                            mt={"5px"}
-                            bg={sectionSelected == sec.section_id && "primaryGray.700"}
-                            _hover={{ bg: "primaryGray.700" }}
-                            py={"8px"}
                             px={"15px"}
-                            cursor={"pointer"}
                             flexDir={'column'}
+                            w={'100%'}
                         >
-                            <Link href={sectionChangeRef} w={'100%'} display={'flex'}>
-                                {sec.section_name}
+                            <Flex h={'1px'} w='100%' bg={'primaryGray.600'}></Flex>
+                            <Link href={sectionChangeRef} w={'100%'} display={'flex'} _hover={{ bg: 'primaryGray.900' }} px={'6px'} py={'3px'} borderRadius={'8px'} my={'3px'}>
+                                <Text fontSize={'16px'} fontWeight={'bold'} color={'primaryGray.500'} cursor={'pointer'} >{sec.section_name}</Text>
                             </Link>
-                            <Link href={chatRef} ms={'8px'} display={'flex'}>
-                                {'chat'}
+                            <Link href={chatRef} ms={'8px'} display={'flex'} _hover={{ bg: 'primaryGray.900' }} px={'6px'} py={'3px'} borderRadius={'8px'} alignItems={'center'} mb='3px'>
+                                <Text color={'primaryGray.600'} w={'20px'} h={'20px'}><ForumIcon style={{ width: '100%', height: '100%' }} /></Text>
+                                <Text fontSize={'14px'} fontWeight={'bold'} color={'primaryGray.500'} cursor={'pointer'}>{'chat'}</Text>
                             </Link>
                         </Text>
                     )
@@ -245,7 +238,6 @@ export default function Home({ community_id, section_id, userLoggin, chat_id, ..
                 </Flex>
             </Flex>
             {props.children}
-            <Flex mb={"50px"}></Flex>
         </>
     );
 }

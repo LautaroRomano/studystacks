@@ -21,10 +21,6 @@ export default function Home({ posts }) {
             setPostsList(data);
           });
       });
-    } else {
-      axios.get(`api/post/relevants`).then(({ data }) => {
-        setPostsList(data);
-      });
     }
   }, [userLoggin]);
 
