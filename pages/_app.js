@@ -39,6 +39,17 @@ const theme = extendTheme({
       500: "#45BD62",
     },
   },
+  components: {
+    Link: {
+      baseStyle: {
+        _hover: {
+          textDecoration: "none",
+          outline: "none",
+        },
+        _focus: { boxShadow: "none" },
+      },
+    },
+  },
 });
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {

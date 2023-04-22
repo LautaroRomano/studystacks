@@ -14,7 +14,7 @@ import { signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Search from "./Search";
-import Register from './user/Register'
+import Register from "./user/Register";
 
 export default function Navbar({ session, userLoggin, setUserLogin }) {
   const [viewUserSettings, setViewUserSettings] = useState(false);
@@ -90,9 +90,9 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
           display={["flex", "flex", "none", "none", "none"]}
         >
           <Flex
-            bg={'primaryGray.700'}
-            p={'6px'}
-            borderRadius={'10%'}
+            bg={"primaryGray.700"}
+            p={"6px"}
+            borderRadius={"10%"}
             onClick={() => setSearch(true)}
           >
             <SearchIcon />
@@ -141,8 +141,12 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
   );
 }
 
-const UserSettings = ({ session, userLoggin, setUserLogin,setViewUserSettings }) => {
-
+const UserSettings = ({
+  session,
+  userLoggin,
+  setUserLogin,
+  setViewUserSettings,
+}) => {
   return (
     <Flex
       position={"absolute"}
@@ -168,7 +172,14 @@ const UserSettings = ({ session, userLoggin, setUserLogin,setViewUserSettings })
               bg: "gray.200",
             }}
           >
-            {!userLoggin && <Register session={session} userLoggin={userLoggin} setUserLogin={setUserLogin} setViewUserSettings={setViewUserSettings}/>}
+            {!userLoggin && (
+              <Register
+                session={session}
+                userLoggin={userLoggin}
+                setUserLogin={setUserLogin}
+                setViewUserSettings={setViewUserSettings}
+              />
+            )}
 
             <Flex h={"1px"} w={"90%"} bg={"gray.300"}></Flex>
             <Link my={"8px"} href="/communities">
