@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
--- Host: localhost    Database: studystacks
+-- Host: 127.0.0.1    Database: studystacks
 -- ------------------------------------------------------
 -- Server version	8.0.32
 
@@ -16,6 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `careers`
+--
+
+DROP TABLE IF EXISTS `careers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `careers` (
+  `career_id` int NOT NULL AUTO_INCREMENT,
+  `university_id` int DEFAULT NULL,
+  `career_name` varchar(255) DEFAULT NULL,
+  `career_description` text,
+  PRIMARY KEY (`career_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `careers`
+--
+
+LOCK TABLES `careers` WRITE;
+/*!40000 ALTER TABLE `careers` DISABLE KEYS */;
+INSERT INTO `careers` VALUES (1,1,'Ingenieria en sistemas de informacion',NULL),(2,1,'Ingenieria electronica',NULL),(3,1,'Ingenieria civil',NULL),(4,2,'Ingenieria en computacion',NULL),(5,2,'Arquitectura',NULL);
+/*!40000 ALTER TABLE `careers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `chats`
 --
 
@@ -28,7 +54,7 @@ CREATE TABLE `chats` (
   PRIMARY KEY (`chat_id`),
   KEY `section_id` (`section_id`),
   CONSTRAINT `chats_ibfk_1` FOREIGN KEY (`section_id`) REFERENCES `section` (`section_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +63,7 @@ CREATE TABLE `chats` (
 
 LOCK TABLES `chats` WRITE;
 /*!40000 ALTER TABLE `chats` DISABLE KEYS */;
-INSERT INTO `chats` VALUES (1,1);
+INSERT INTO `chats` VALUES (1,1),(2,3),(3,4);
 /*!40000 ALTER TABLE `chats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,6 +98,32 @@ LOCK TABLES `comments` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `commissions`
+--
+
+DROP TABLE IF EXISTS `commissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `commissions` (
+  `commission_id` int NOT NULL AUTO_INCREMENT,
+  `career_id` int DEFAULT NULL,
+  `commission_name` varchar(255) DEFAULT NULL,
+  `commission_description` text,
+  PRIMARY KEY (`commission_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `commissions`
+--
+
+LOCK TABLES `commissions` WRITE;
+/*!40000 ALTER TABLE `commissions` DISABLE KEYS */;
+INSERT INTO `commissions` VALUES (1,1,'1K01',NULL),(2,1,'1K02',NULL),(3,1,'1K03',NULL),(4,1,'1K04',NULL),(5,1,'1K05',NULL);
+/*!40000 ALTER TABLE `commissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `communities`
 --
 
@@ -84,10 +136,13 @@ CREATE TABLE `communities` (
   `community_description` text NOT NULL,
   `creation_date` datetime NOT NULL,
   `creator_user_id` int NOT NULL,
+  `university_id` int DEFAULT NULL,
+  `career_id` int DEFAULT NULL,
+  `commission_id` int DEFAULT NULL,
   PRIMARY KEY (`community_id`),
   KEY `creator_user_id` (`creator_user_id`),
   CONSTRAINT `communities_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +151,7 @@ CREATE TABLE `communities` (
 
 LOCK TABLES `communities` WRITE;
 /*!40000 ALTER TABLE `communities` DISABLE KEYS */;
-INSERT INTO `communities` VALUES (1,'UTN - Fisica II','Aqui podras ver los materiales necesarios para Fisica II en la UTN FRT','2023-04-06 00:00:00',1);
+INSERT INTO `communities` VALUES (1,'UTN - Fisica II','Aqui podras ver los materiales necesarios para Fisica II en la UTN FRT','2023-04-06 00:00:00',1,NULL,NULL,NULL),(2,'Fisica 2','Fisica 2 de la comision 1K01','2023-04-21 21:04:00',2,NULL,NULL,NULL),(3,'Analisis matematico I','Analisis matematico I de la comision 1K01','2023-04-21 21:06:08',2,1,1,1);
 /*!40000 ALTER TABLE `communities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +168,7 @@ CREATE TABLE `communities_users` (
   `user_id` int DEFAULT NULL,
   `entry_date` datetime NOT NULL,
   PRIMARY KEY (`communities_users_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +177,7 @@ CREATE TABLE `communities_users` (
 
 LOCK TABLES `communities_users` WRITE;
 /*!40000 ALTER TABLE `communities_users` DISABLE KEYS */;
-INSERT INTO `communities_users` VALUES (2,1,2,'2023-04-07 00:37:27'),(3,1,1,'2023-04-12 09:21:12'),(4,1,3,'2023-04-17 12:32:17');
+INSERT INTO `communities_users` VALUES (2,1,2,'2023-04-07 00:37:27'),(3,1,1,'2023-04-12 09:21:12'),(4,1,3,'2023-04-17 12:32:17'),(6,3,2,'2023-04-21 21:06:08');
 /*!40000 ALTER TABLE `communities_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,7 +199,7 @@ CREATE TABLE `messages` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`chat_id`),
   CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +208,7 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (1,'2023-04-18 10:59:35','hola!',1,3),(2,'2023-04-18 10:59:56','jajajaja',1,3),(3,'2023-04-18 11:09:16','hola boludo',1,1);
+INSERT INTO `messages` VALUES (1,'2023-04-18 10:59:35','hola!',1,3),(2,'2023-04-18 10:59:56','jajajaja',1,3),(3,'2023-04-18 11:09:16','hola boludo',1,1),(4,'2023-04-18 16:18:33','buenos dias',1,2),(5,'2023-04-18 16:19:10','como estan?',1,2),(6,'2023-04-18 16:19:50','hola',1,1),(7,'2023-04-18 16:24:43','asi',1,2),(8,'2023-04-18 16:25:39','aa',1,2),(9,'2023-04-18 16:25:41','aa',1,2),(10,'2023-04-18 16:25:47','asd',1,1),(11,'2023-04-18 16:29:59','ahora?',1,2),(12,'2023-04-18 16:30:31','jajaja',1,2),(13,'2023-04-18 16:31:06','a',1,2),(14,'2023-04-18 16:32:26','as',1,2),(15,'2023-04-18 16:32:33','la puta',1,1),(16,'2023-04-18 16:33:31','hola soy user',1,2),(17,'2023-04-18 16:33:43','hola user',1,1),(18,'2023-04-18 16:38:26','dejenlaa que llore sola',1,2),(19,'2023-04-18 16:41:17','a',1,2),(20,'2023-04-18 16:42:52','1',1,2),(21,'2023-04-18 16:46:27','probando',1,2),(22,'2023-04-18 16:46:32','esaaa',1,2),(23,'2023-04-18 16:46:36','hola si',1,1),(24,'2023-04-18 16:46:42','bien ahi negro',1,1),(25,'2023-04-18 16:46:49','bien',1,2),(26,'2023-04-18 16:47:07','aver aver que paso aqui?',1,2),(27,'2023-04-18 16:47:17','jajaja',1,1),(28,'2023-04-18 16:49:43','hola',1,2),(29,'2023-04-18 16:49:47','hola',1,1),(30,'2023-04-18 16:49:51','jajaa',1,2),(31,'2023-04-18 16:49:53','bien',1,2),(32,'2023-04-18 16:49:56','bien',1,1),(33,'2023-04-18 16:50:37','a',1,2),(34,'2023-04-18 16:51:12','a',1,2),(35,'2023-04-18 16:51:14','a',1,1),(36,'2023-04-18 16:51:16','a',1,1),(37,'2023-04-18 16:51:27','a',1,2),(38,'2023-04-18 16:51:29','asd',1,1),(39,'2023-04-18 16:54:05','a',1,2),(40,'2023-04-18 16:54:05','a',1,2),(41,'2023-04-18 16:54:05','a',1,2),(42,'2023-04-18 16:54:05','a',1,2),(43,'2023-04-18 16:54:05','a',1,2),(44,'2023-04-18 16:54:05','a',1,2),(45,'2023-04-18 16:54:05','a',1,2),(46,'2023-04-18 16:54:08','a',1,2),(47,'2023-04-18 16:54:10','adsad',1,2),(48,'2023-04-18 16:54:12','adsda',1,1),(49,'2023-04-18 16:54:14','dasd',1,2),(50,'2023-04-18 16:56:04','ave',1,2),(51,'2023-04-18 16:57:39','funca?',1,2),(52,'2023-04-18 17:03:13','a',1,2),(53,'2023-04-18 17:04:15','a',1,2),(54,'2023-04-18 17:04:31','s',1,2),(55,'2023-04-18 17:04:33','s',1,1),(56,'2023-04-18 17:04:39','s',1,2),(57,'2023-04-18 17:05:56','?',1,2),(58,'2023-04-18 17:06:13','a',1,2),(59,'2023-04-18 17:06:25','?',1,2),(60,'2023-04-18 17:06:44','a',1,2),(61,'2023-04-18 17:07:24','ll',1,2),(62,'2023-04-18 17:08:14','ahora',1,2),(63,'2023-04-18 17:09:03','a',1,1),(64,'2023-04-18 17:09:03','a',1,2),(65,'2023-04-18 17:10:00','y?',1,2),(66,'2023-04-18 17:10:42','a',1,2),(67,'2023-04-18 17:11:08','1',1,2),(68,'2023-04-18 17:11:40','2',1,2),(69,'2023-04-18 17:12:08','a',1,2),(70,'2023-04-18 17:12:22','a',1,2),(71,'2023-04-18 17:12:28','ssss',1,1),(72,'2023-04-18 17:12:30','dasdsda',1,2),(73,'2023-04-18 17:12:32','jajaa',1,2),(74,'2023-04-18 17:26:07','a',1,2),(75,'2023-04-18 17:27:21','a',1,2),(76,'2023-04-18 17:29:31','a',1,2),(77,'2023-04-18 17:33:59','a',1,2),(78,'2023-04-18 17:34:29','a',1,2),(79,'2023-04-18 17:34:34','s',1,2),(80,'2023-04-18 17:35:03','asd',1,2),(81,'2023-04-18 17:42:26','asd',1,2),(82,'2023-04-18 17:43:17','que?',1,2),(83,'2023-04-18 17:43:49','a',1,2),(84,'2023-04-18 17:43:54','adasdasaasda',1,2),(85,'2023-04-18 17:44:18','now?',1,2),(86,'2023-04-18 17:44:35','sda',1,2),(87,'2023-04-18 17:44:38','gg',1,2),(88,'2023-04-18 17:44:49','sdsa',1,2),(89,'2023-04-18 17:45:02','asdsa',1,2),(90,'2023-04-18 19:41:26','1',1,2);
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,7 +292,7 @@ CREATE TABLE `section` (
   KEY `community_id` (`community_id`),
   CONSTRAINT `section_ibfk_1` FOREIGN KEY (`creator_user_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `section_ibfk_2` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,8 +301,33 @@ CREATE TABLE `section` (
 
 LOCK TABLES `section` WRITE;
 /*!40000 ALTER TABLE `section` DISABLE KEYS */;
-INSERT INTO `section` VALUES (1,'Inicio','Pagina de inicio de la comunidad UTN - Fisica II','2023-04-06 00:00:00',1,1),(2,'Parciales','parciales','2023-04-12 08:58:58',1,1);
+INSERT INTO `section` VALUES (1,'Inicio','Pagina de inicio de la comunidad UTN - Fisica II','2023-04-06 00:00:00',1,1),(2,'Parciales','parciales','2023-04-12 08:58:58',1,1),(3,'Inicio','Pagina de inicio de la comunidad Fisica 2','2023-04-21 21:04:00',2,2),(4,'Inicio','Pagina de inicio de la comunidad Analisis matematico I','2023-04-21 21:06:08',2,3);
 /*!40000 ALTER TABLE `section` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `universities`
+--
+
+DROP TABLE IF EXISTS `universities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `universities` (
+  `university_id` int NOT NULL AUTO_INCREMENT,
+  `university_name` varchar(255) DEFAULT NULL,
+  `university_description` text,
+  PRIMARY KEY (`university_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `universities`
+--
+
+LOCK TABLES `universities` WRITE;
+/*!40000 ALTER TABLE `universities` DISABLE KEYS */;
+INSERT INTO `universities` VALUES (1,'Universidad Tecnologica Nacional',NULL),(2,'Universidad Nacional Tucuman',NULL);
+/*!40000 ALTER TABLE `universities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -322,4 +402,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-18 11:13:18
+-- Dump completed on 2023-04-21 21:07:37
