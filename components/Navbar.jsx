@@ -102,6 +102,7 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
             placeholder="Buscar..."
             value=""
             onClick={()=>{router.push("/login")}}
+            readOnly
           />
         }
           
