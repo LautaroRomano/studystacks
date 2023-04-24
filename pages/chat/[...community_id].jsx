@@ -91,6 +91,7 @@ export default function Home() {
                             chat_id: chat_id,
                             username: userLoggin.username,
                             image: userLoggin.image,
+                            message_id: data.message_id
                         }
                     }));
                 });
@@ -139,8 +140,15 @@ export default function Home() {
                                         alt=""
                                         mx={'5px'}
                                     />
-                                    <Text className={styles.li} maxW={'70%'} bg={mes.user_id === userLoggin.user_id ? '#19939333' : 'white'} boxShadow={'0px 0px 10px rgba(0, 0, 0, 0.1)'} borderRadius={'10px'} p={'10px'}>
-                                        <Text textAlign={mes.user_id === userLoggin.user_id ? 'end' : 'start'} color={'primaryGray.600'} fontSize={'11px'} mb={'3px'}>@{mes.username}</Text>
+                                    <Text whiteSpace="pre-wrap" className={styles.li} maxW={'70%'} bg={mes.user_id === userLoggin.user_id ? '#19939333' : 'white'} boxShadow={'0px 0px 10px rgba(0, 0, 0, 0.1)'} borderRadius={'10px'} p={'10px'}>
+                                        {/* <Text textAlign={mes.user_id === userLoggin.user_id ? 'end' : 'start'} color={'primaryGray.600'} fontSize={'11px'} mb={'3px'}>@{mes.username}</Text> */}
+                                        {
+                                            mes.message_reply_to &&
+                                            <Text pl={'8px'} pr={'10px'} py={'5px'} fontSize={'12px'} opacity={'.8'} bg={'gray.100'} borderRadius={'5px'} mb={'5px'} maxH={'180px'} overflowY={'hidden'} position={'relative'}>
+                                                <Flex bg={'#7B1FA2'} position={'absolute'} w='3px' h={'100%'} top={0} zIndex={1000} left={0}></Flex>
+                                                {messagesList.find(m => m.message_id === mes.message_reply_to).message}
+                                            </Text>
+                                        }
                                         {mes.message}
                                     </Text>
                                 </Flex>

@@ -14,6 +14,7 @@ export default function handler(req, res) {
         try {
           const data = JSON.parse(message);
           if (data.newMessage) {
+            console.log('data.newMessage',data.newMessage)
             let mensaje = data.newMessage.message
             let index = mensaje.indexOf('@bot');
             if (index !== -1) {
@@ -23,7 +24,9 @@ export default function handler(req, res) {
                   for (const connection of connections) {
                     connection.send(JSON.stringify(data));
                   }
-                }, data.newMessage.chat_id)
+                }, 
+                data.newMessage.chat_id,
+                data.newMessage.message_id)
               })();
             }
           }

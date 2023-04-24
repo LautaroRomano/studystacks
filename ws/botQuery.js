@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { pool } from '../config/database'
 
-export const botQuery = async (message, send, chat_id) => {
+export const botQuery = async (message, send, chat_id, message_reply_to) => {
     try {
         let config = {
             headers: {
-                Authorization: 'Bearer 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',
+                Authorization: `Bearer ${process.env.OPENAI_KEY}`,
             }
         }
         axios.post('https://api.openai.com/v1/completions', {
@@ -23,8 +23,8 @@ export const botQuery = async (message, send, chat_id) => {
                 );
                 if (chat_id) {
                     const [mss] = await pool.query(
-                        `insert into messages values(0,now(),?,?,?)`,
-                        [botMss, chat_id, bot[0].user_id]
+                        `insert into messages values(0,now(),?,?,?,?)`,
+                        [botMss, chat_id, bot[0].user_id,message_reply_to]
                     );
                     const [newMessage] = await pool.query(
                         `select mes.*,us.username,us.image,sec.section_name,sec.section_id  
