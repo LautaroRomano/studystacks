@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useState , useEffect} from "react";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/navbar/navbar/Navbar";
 import CreatePostView from "../../components/CreatePostView";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";

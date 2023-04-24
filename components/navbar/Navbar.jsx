@@ -13,8 +13,8 @@ import axios from "axios";
 import { signIn, signOut , session} from "next-auth/react";
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import Search from "./Search";
-import Register from "./user/Register";
+import Search from "../Search";
+import Register from "../user/Register";
 import { useRouter } from "next/router";
 
 

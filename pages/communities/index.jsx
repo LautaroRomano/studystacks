@@ -1,6 +1,6 @@
 import { Flex, Text, Button, Input, Link } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/navbar/Navbar";
 import { useSession } from "next-auth/react";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";

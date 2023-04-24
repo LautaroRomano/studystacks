@@ -5,7 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function Search({ session, userLoggin, setUserLogin, setViewUserSettings }) {
+export default function Search({ session, userLoggin, setUserLogin, setViewUserSettings, notClosed }) {
 
     const [registerData, setRegisterData] = useState({});
 
@@ -51,19 +51,22 @@ export default function Search({ session, userLoggin, setUserLogin, setViewUserS
                 zIndex={11}
                 position={"relative"}
             >
-                <Flex
-                    position={"absolute"}
-                    right={2}
-                    top={2}
-                    bg={"primaryGray.700"}
-                    border={"5px"}
-                    p={"5px"}
-                    justifyContent={'center'}
-                    alignItems={'center'}
-                    onClick={() => setViewUserSettings(false)}
-                >
-                    <CloseIcon />
-                </Flex>
+                {
+                    !notClosed &&
+                    <Flex
+                        position={"absolute"}
+                        right={2}
+                        top={2}
+                        bg={"primaryGray.700"}
+                        border={"5px"}
+                        p={"5px"}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        onClick={() => setViewUserSettings(false)}
+                    >
+                        <CloseIcon />
+                    </Flex>
+                }
                 <Flex
                     w={"100%"}
                     alignItems={"center"}
