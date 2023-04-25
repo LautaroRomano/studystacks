@@ -47,20 +47,20 @@ export default function Home({ posts }) {
           userLoggin={userLoggin}
           setUserLogin={setUserLogin}
         />
-        <NavbarBootom userLoggin={userLoggin}/>
-        {
-          userLoggin && (
+        {/* <NavbarBootom userLoggin={userLoggin}/> */}
+        {/* { */}
+          {/* userLoggin && ( */}
             <CreatePost />
-          )
-        }
+          {/* ) */}
+        {/* } */}
         {postsList.map((post) => (
           <Post data={post} key={post.post_id} userLoggin={userLoggin} />
         ))}
-        {
+        {/* {
           !userLoggin && (
             <UserSettings session={{ status, data }} userLoggin={userLoggin} setUserLogin={setUserLogin} />
           )
-        }
+        } */}
       </Flex>
     </>
   );
