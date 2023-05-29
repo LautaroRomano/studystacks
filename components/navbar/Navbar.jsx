@@ -10,15 +10,18 @@ import {
 import GoogleIcon from "@mui/icons-material/Google";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import axios from "axios";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut , session} from "next-auth/react";
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import Search from "./Search";
-import Register from "./user/Register";
+import Search from "../Search";
+import Register from "../user/Register";
+import { useRouter } from "next/router";
+
 
 export default function Navbar({ session, userLoggin, setUserLogin }) {
   const [viewUserSettings, setViewUserSettings] = useState(false);
   const [search, setSearch] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (session && session.status === "authenticated" && !userLoggin) {
@@ -28,6 +31,17 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
       });
     }
   }, [session]);
+
+  const handleSearchClick = () => {
+    setSearch(true)
+  }
+
+  const handleLoginClick = () => {
+    localStorage.setItem("callbackUrl" , router.asPath)
+    signIn("google")
+  }
+
+
   return (
     <Flex
       w={["100vw", "80vw", "700px", "700px", "700px"]}
@@ -75,12 +89,23 @@ export default function Navbar({ session, userLoggin, setUserLogin }) {
           position={"relative"}
           display={["none", "none", "flex", "flex", "flex"]}
         >
+        { session && session.status === 'authenticated' 
+        ? 
+           <Input
+              placeholder="Buscar..."
+              value=""
+              onClick={handleSearchClick}
+              readOnly
+            ></Input>
+        : 
           <Input
             placeholder="Buscar..."
             value=""
-            onClick={() => setSearch(true)}
+            onClick={()=>{router.push("/login")}}
             readOnly
-          ></Input>
+          />
+        }
+          
           <Flex position={"absolute"} right={1} top={"2"}>
             <SearchIcon />
           </Flex>

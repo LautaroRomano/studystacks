@@ -1,4 +1,4 @@
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/navbar/Navbar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { Flex, Input, Button, Text, Image } from "@chakra-ui/react";
@@ -22,26 +22,26 @@ export default function Home() {
 
     useEffect(() => {
         if (messagesRef.current && messagesRef.current.scrollTop <= 50) {
-          messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
         }
-      }, [messagesList]);
+    }, [messagesList]);
 
     useEffect(() => {
-        if(!userLoggin || ws) return
+        if (!userLoggin || ws) return
         try {
             const sessionId = Math.random().toString(36).substring(2);
-            const newWs = new WebSocket(`ws://ec2-52-67-26-98.sa-east-1.compute.amazonaws.com:8080?sessionId=${sessionId}`);
+            const newWs = new WebSocket(`ws://${HOST}:8080?sessionId=${sessionId}`);
 
             newWs.onopen = function () {
                 console.log('Connected to WebSocket server');
             };
             newWs.onmessage = function (event) {
-                    const data = event.data
-                    const nData = JSON.parse(data);
-                    if (nData.newMessage) {
-                        if (nData.newMessage.chat_id !== chat_id ) return
-                        setMessagesList(prevList => [...prevList, nData.newMessage]);
-                    }
+                const data = event.data
+                const nData = JSON.parse(data);
+                if (nData.newMessage) {
+                    if (nData.newMessage.chat_id != chat_id) return
+                    setMessagesList(prevList => [...prevList, nData.newMessage]);
+                }
             };
             newWs.onclose = function () {
                 console.log('Disconnected from WebSocket server');
@@ -70,9 +70,9 @@ export default function Home() {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-          handleSendMessage();
+            handleSendMessage();
         }
-      }      
+    }
 
     const handleSendMessage = () => {
         if (userLoggin.user_id && newMessage.length > 0 && section_id && ws) {
@@ -91,6 +91,7 @@ export default function Home() {
                             chat_id: chat_id,
                             username: userLoggin.username,
                             image: userLoggin.image,
+                            message_id: data.message_id
                         }
                     }));
                 });
@@ -117,7 +118,6 @@ export default function Home() {
                     className={styles.chatThread}
                     flexDirection={'column'}
                     w={["100vw", "80vw", "700px", "700px", "700px"]}
-                    bg="#fff"
                     paddingBottom="14px"
                     paddingX="14px"
                     color={"primaryGray.500"}
@@ -125,24 +125,35 @@ export default function Home() {
                     p={"15px"}
                     mt={"65px"}
                     h={'100%'}
+                    bg={'gray.100'}
                 >
-                    <Flex className={styles.chatContainer} ref={messagesRef}>
-                    {
-                        messagesList.map(mes => {
-                            return <Flex w={'100%'} flexDir={mes.user_id === userLoggin.user_id ? 'row-reverse' : 'row'}>
-                                <Image
-                                    height="35px"
-                                    width="35px"
-                                    borderRadius="50%"
-                                    objectFit="cover"
-                                    src={mes.image}
-                                    alt=""
-                                    mx={'5px'}
-                                />
-                                <Text className={styles.li}>{mes.message}</Text>
-                            </Flex>
-                        })
-                    }
+                    <Flex className={styles.chatContainer} ref={messagesRef} >
+                        {
+                            messagesList.map(mes => {
+                                return <Flex w={'100%'} flexDir={mes.user_id === userLoggin.user_id ? 'row-reverse' : 'row'}>
+                                    <Image
+                                        height="35px"
+                                        width="35px"
+                                        borderRadius="50%"
+                                        objectFit="cover"
+                                        src={mes.image}
+                                        alt=""
+                                        mx={'5px'}
+                                    />
+                                    <Text whiteSpace="pre-wrap" className={styles.li} maxW={'70%'} bg={mes.user_id === userLoggin.user_id ? '#19939333' : 'white'} boxShadow={'0px 0px 10px rgba(0, 0, 0, 0.1)'} borderRadius={'10px'} p={'10px'}>
+                                        {/* <Text textAlign={mes.user_id === userLoggin.user_id ? 'end' : 'start'} color={'primaryGray.600'} fontSize={'11px'} mb={'3px'}>@{mes.username}</Text> */}
+                                        {
+                                            mes.message_reply_to &&
+                                            <Text pl={'8px'} pr={'10px'} py={'5px'} fontSize={'12px'} opacity={'.8'} bg={'gray.100'} borderRadius={'5px'} mb={'5px'} maxH={'180px'} overflowY={'hidden'} position={'relative'}>
+                                                <Flex bg={'#7B1FA2'} position={'absolute'} w='3px' h={'100%'} top={0} zIndex={1000} left={0}></Flex>
+                                                {messagesList.find(m => m.message_id === mes.message_reply_to).message}
+                                            </Text>
+                                        }
+                                        {mes.message}
+                                    </Text>
+                                </Flex>
+                            })
+                        }
                     </Flex>
                     <Flex alignItems={'center'}>
                         <Input placeholder="Mensaje..." value={newMessage} onChange={({ target }) => setNewMessage(target.value)} onKeyDown={handleKeyDown}></Input>

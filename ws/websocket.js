@@ -14,26 +14,19 @@ export default function handler(req, res) {
         try {
           const data = JSON.parse(message);
           if (data.newMessage) {
+            console.log('data.newMessage',data.newMessage)
             let mensaje = data.newMessage.message
             let index = mensaje.indexOf('@bot');
             if (index !== -1) {
               let mensajeBot = mensaje.substring(index + 5);
               (async function () {
-                const botMessage = await botQuery(mensajeBot)
-                for (const connection of connections) {
-                  const sendObj = {
-                    message_id: Math.floor(Math.random() * 100000),
-                    date: new Date(),
-                    message: botMessage,
-                    chat_id: Math.floor(Math.random() * 100000),
-                    user_id: Math.floor(Math.random() * 100000),
-                    username: 'Bot',
-                    image: 'https://www.gacelaweb.com/wp-content/uploads/que_es_un_bot_en_internet.jpg',
-                    section_name: '',
-                    section_id: mensaje.section_id,
+                botQuery(mensajeBot, (data) => {
+                  for (const connection of connections) {
+                    connection.send(JSON.stringify(data));
                   }
-                  connection.send(JSON.stringify(sendObj));
-                }
+                }, 
+                data.newMessage.chat_id,
+                data.newMessage.message_id)
               })();
             }
           }

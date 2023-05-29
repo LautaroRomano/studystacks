@@ -4,8 +4,8 @@ import fs from "fs";
 
 //configurar AWS con las claves de acceso
 AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY || 'AKIAR5YFNPEHG2CI5YDB',
-  secretAccessKey: process.env.AWS_SECRET_KEY || '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',
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
   region: 'sa-east-1'
 });
 

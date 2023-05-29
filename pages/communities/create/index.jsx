@@ -1,6 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import Navbar from "../../../components/Navbar";
+import Navbar from "../../../components/navbar/Navbar";
 import CreateCommunityView from "../../../components/communities/CreateCommunityView";
 import { useSession } from "next-auth/react";
 
